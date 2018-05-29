@@ -19,13 +19,15 @@ package com.dangdang.ddframe.job.fixture.config;
 
 import com.dangdang.ddframe.job.config.JobRootConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestJobRootConfiguration implements JobRootConfiguration {
     
     private final JobTypeConfiguration typeConfig;
-    
+
+    public TestJobRootConfiguration(JobTypeConfiguration typeConfig) {
+        this.typeConfig = typeConfig;
+    }
+
     @Override
     public JobTypeConfiguration getTypeConfig() {
         return typeConfig;

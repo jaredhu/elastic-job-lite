@@ -23,8 +23,9 @@ import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.gson.JsonArray;
-import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -37,9 +38,10 @@ import javax.ws.rs.QueryParam;
  * @author gaohongtao.
  */
 @Path("/operate")
-@Slf4j
 public final class CloudOperationRestfulApi {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(CloudOperationRestfulApi.class);
+
     private static ReconcileService reconcileService;
     
     private static final long RECONCILE_MILLIS_INTERVAL = 10 * 1000L;

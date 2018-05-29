@@ -17,48 +17,39 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.statistics.job;
 
-import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.cloud.scheduler.state.running.RunningService;
 import com.dangdang.ddframe.job.cloud.scheduler.statistics.util.StatisticTimeUtils;
 import com.dangdang.ddframe.job.context.TaskContext;
+import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.statistics.StatisticInterval;
 import com.dangdang.ddframe.job.statistics.rdb.StatisticRdbRepository;
 import com.dangdang.ddframe.job.statistics.type.job.JobRunningStatistics;
 import com.dangdang.ddframe.job.statistics.type.task.TaskRunningStatistics;
 import com.google.common.base.Optional;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 运行中的任务统计作业.
  *
  * @author liguangyun
  */
-@Setter
-@NoArgsConstructor
-@Slf4j
 public final class JobRunningStatisticJob extends AbstractStatisticJob {
+
+    private static final Logger logger = LoggerFactory.getLogger(JobRunningStatisticJob.class);
     
     private static final StatisticInterval EXECUTE_INTERVAL = StatisticInterval.MINUTE;
     
     private RunningService runningService;
     
     private StatisticRdbRepository repository;
-    
+
+    public JobRunningStatisticJob() {
+    }
+
     /**
      * 构造函数.
      * @param registryCenter 注册中心
@@ -68,7 +59,15 @@ public final class JobRunningStatisticJob extends AbstractStatisticJob {
         runningService = new RunningService(registryCenter);
         this.repository = rdbRepository;
     }
-    
+
+    public void setRunningService(RunningService runningService) {
+        this.runningService = runningService;
+    }
+
+    public void setRepository(StatisticRdbRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public JobDetail buildJobDetail() {
         return JobBuilder.newJob(this.getClass()).withIdentity(getJobName()).build();
@@ -103,7 +102,7 @@ public final class JobRunningStatisticJob extends AbstractStatisticJob {
             fillBlankIfNeeded(latestOne.get());
         }
         JobRunningStatistics jobRunningStatistics = new JobRunningStatistics(runningCount, StatisticTimeUtils.getCurrentStatisticTime(EXECUTE_INTERVAL));
-        log.debug("Add jobRunningStatistics, runningCount is:{}", runningCount);
+        logger.debug("Add jobRunningStatistics, runningCount is:{}", runningCount);
         repository.add(jobRunningStatistics);
     }
     
@@ -113,7 +112,7 @@ public final class JobRunningStatisticJob extends AbstractStatisticJob {
             fillBlankIfNeeded(latestOne.get());
         }
         TaskRunningStatistics taskRunningStatistics = new TaskRunningStatistics(runningCount, StatisticTimeUtils.getCurrentStatisticTime(EXECUTE_INTERVAL));
-        log.debug("Add taskRunningStatistics, runningCount is:{}", runningCount);
+        logger.debug("Add taskRunningStatistics, runningCount is:{}", runningCount);
         repository.add(taskRunningStatistics);
     }
     
@@ -138,7 +137,7 @@ public final class JobRunningStatisticJob extends AbstractStatisticJob {
     private void fillBlankIfNeeded(final JobRunningStatistics latestOne) {
         List<Date> blankDateRange = findBlankStatisticTimes(latestOne.getStatisticsTime(), EXECUTE_INTERVAL);
         if (!blankDateRange.isEmpty()) {
-            log.debug("Fill blank range of jobRunningStatistics, range is:{}", blankDateRange);
+            logger.debug("Fill blank range of jobRunningStatistics, range is:{}", blankDateRange);
         }
         for (Date each : blankDateRange) {
             repository.add(new JobRunningStatistics(latestOne.getRunningCount(), each));
@@ -148,7 +147,7 @@ public final class JobRunningStatisticJob extends AbstractStatisticJob {
     private void fillBlankIfNeeded(final TaskRunningStatistics latestOne) {
         List<Date> blankDateRange = findBlankStatisticTimes(latestOne.getStatisticsTime(), EXECUTE_INTERVAL);
         if (!blankDateRange.isEmpty()) {
-            log.debug("Fill blank range of taskRunningStatistics, range is:{}", blankDateRange);
+            logger.debug("Fill blank range of taskRunningStatistics, range is:{}", blankDateRange);
         }
         for (Date each : blankDateRange) {
             repository.add(new TaskRunningStatistics(latestOne.getRunningCount(), each));

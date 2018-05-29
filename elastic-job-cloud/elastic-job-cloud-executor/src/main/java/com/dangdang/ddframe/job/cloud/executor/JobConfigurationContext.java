@@ -27,7 +27,6 @@ import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.executor.handler.JobProperties.JobPropertiesEnum;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.Getter;
 
 import java.util.Map;
 
@@ -42,12 +41,18 @@ public final class JobConfigurationContext implements JobRootConfiguration {
     
     private JobTypeConfiguration jobTypeConfig;
     
-    @Getter
     private String beanName;
     
-    @Getter
     private String applicationContext;
-    
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public String getApplicationContext() {
+        return applicationContext;
+    }
+
     public JobConfigurationContext(final Map<String, String> jobConfigurationMap) {
         int ignoredShardingTotalCount = 1;
         String jobClass = jobConfigurationMap.get("jobClass");
@@ -70,6 +75,8 @@ public final class JobConfigurationContext implements JobRootConfiguration {
         beanName = jobConfigurationMap.get("beanName");
         applicationContext = jobConfigurationMap.get("applicationContext");
     }
+
+
     
     /**
      * 判断是否为瞬时作业.

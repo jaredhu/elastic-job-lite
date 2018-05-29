@@ -17,16 +17,11 @@
 
 package com.dangdang.ddframe.job.statistics;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * 统计时间间隔.
  *
  * @author liguangyun
  */
-@Getter
-@RequiredArgsConstructor
 public enum StatisticInterval {
     
     MINUTE("0 * * * * ?"),
@@ -36,4 +31,12 @@ public enum StatisticInterval {
     DAY("0 0 0 * * ?");
     
     private final String cron;
+
+    StatisticInterval(String cron) {
+        this.cron = cron;
+    }
+
+    public String getCron() {
+        return cron;
+    }
 }

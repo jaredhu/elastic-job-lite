@@ -17,19 +17,19 @@
 
 package com.dangdang.ddframe.job.lite.fixture.util;
 
-import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
+import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.fixture.TestSimpleJob;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.unitils.util.ReflectionUtils;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobConfigurationUtil {
-    
+
+    private JobConfigurationUtil() {
+    }
+
     public static void setFieldValue(final Object config, final String fieldName, final Object fieldValue) {
         try {
             ReflectionUtils.setFieldValue(config, config.getClass().getDeclaredField(fieldName), fieldValue);

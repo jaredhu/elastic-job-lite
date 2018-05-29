@@ -20,8 +20,6 @@ package com.dangdang.ddframe.job.config.simple;
 import com.dangdang.ddframe.job.api.JobType;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 简单作业配置.
@@ -29,8 +27,6 @@ import lombok.RequiredArgsConstructor;
  * @author caohao
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class SimpleJobConfiguration implements JobTypeConfiguration {
     
     private final JobCoreConfiguration coreConfig;
@@ -38,4 +34,24 @@ public final class SimpleJobConfiguration implements JobTypeConfiguration {
     private final JobType jobType = JobType.SIMPLE;
     
     private final String jobClass;
+
+    public SimpleJobConfiguration(JobCoreConfiguration coreConfig, String jobClass) {
+        this.coreConfig = coreConfig;
+        this.jobClass = jobClass;
+    }
+
+    @Override
+    public JobCoreConfiguration getCoreConfig() {
+        return coreConfig;
+    }
+
+    @Override
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    @Override
+    public String getJobClass() {
+        return jobClass;
+    }
 }

@@ -18,9 +18,6 @@
 package com.dangdang.ddframe.job.statistics.type.task;
 
 import com.dangdang.ddframe.job.statistics.StatisticInterval;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
@@ -29,9 +26,6 @@ import java.util.Date;
  *
  * @author liguangyun
  */
-@Getter
-@AllArgsConstructor
-@RequiredArgsConstructor
 public final class TaskResultStatistics {
     
     private long id;
@@ -45,4 +39,44 @@ public final class TaskResultStatistics {
     private final Date statisticsTime;
     
     private Date creationTime = new Date();
+
+    public TaskResultStatistics(int successCount, int failedCount, StatisticInterval statisticInterval, Date statisticsTime) {
+        this.successCount = successCount;
+        this.failedCount = failedCount;
+        this.statisticInterval = statisticInterval;
+        this.statisticsTime = statisticsTime;
+    }
+
+    public TaskResultStatistics(long id, int successCount, int failedCount, StatisticInterval statisticInterval, Date statisticsTime, Date creationTime) {
+        this.id = id;
+        this.successCount = successCount;
+        this.failedCount = failedCount;
+        this.statisticInterval = statisticInterval;
+        this.statisticsTime = statisticsTime;
+        this.creationTime = creationTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public int getSuccessCount() {
+        return successCount;
+    }
+
+    public int getFailedCount() {
+        return failedCount;
+    }
+
+    public StatisticInterval getStatisticInterval() {
+        return statisticInterval;
+    }
+
+    public Date getStatisticsTime() {
+        return statisticsTime;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
 }

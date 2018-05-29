@@ -19,13 +19,15 @@ package com.dangdang.ddframe.job.lite.integrate.fixture.simple;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import lombok.Getter;
 
 public final class FooSimpleElasticJob implements SimpleJob {
     
-    @Getter
     private static volatile boolean completed;
-    
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
     @Override
     public void execute(final ShardingContext shardingContext) {
         completed = true;

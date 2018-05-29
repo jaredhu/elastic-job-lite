@@ -21,13 +21,14 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -39,8 +40,9 @@ import java.util.EnumSet;
  * @author zhangliang
  * @author caohao
  */
-@Slf4j
 public final class RestfulServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(RestfulServer.class);
     
     private final Server server;
     
@@ -71,7 +73,7 @@ public final class RestfulServer {
      * @throws Exception 启动服务器异常
      */
     public void start(final String packages, final Optional<String> resourcePath, final Optional<String> servletPath) throws Exception {
-        log.info("Elastic Job: Start RESTful server");
+        logger.info("Elastic Job: Start RESTful server");
         HandlerList handlers = new HandlerList();
         if (resourcePath.isPresent()) {
             servletContextHandler.setBaseResource(Resource.newClassPathResource(resourcePath.get()));
@@ -117,13 +119,13 @@ public final class RestfulServer {
      * 
      */
     public void stop() {
-        log.info("Elastic Job: Stop RESTful server");
+        logger.info("Elastic Job: Stop RESTful server");
         try {
             server.stop();
             // CHECKSTYLE:OFF
         } catch (final Exception e) {
             // CHECKSTYLE:ON
-            log.error("Elastic Job: Stop RESTful server error", e);
+            logger.error("Elastic Job: Stop RESTful server error", e);
         }
     }
 }

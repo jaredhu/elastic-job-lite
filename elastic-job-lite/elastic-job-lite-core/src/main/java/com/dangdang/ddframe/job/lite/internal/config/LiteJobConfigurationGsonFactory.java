@@ -23,28 +23,22 @@ import com.dangdang.ddframe.job.util.json.AbstractJobConfigurationGsonTypeAdapte
 import com.dangdang.ddframe.job.util.json.GsonFactory;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.DISABLED;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.JOB_SHARDING_STRATEGY_CLASS;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.MAX_TIME_DIFF_SECONDS;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.MONITOR_EXECUTION;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.MONITOR_PORT;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.OVERWRITE;
-import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.RECONCILE_INTERVAL_MINUTES;
+import static com.dangdang.ddframe.job.lite.internal.config.LiteJobConfigurationConstants.*;
 
 /**
  * Lite作业配置的Gson工厂.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LiteJobConfigurationGsonFactory {
-    
+
+    private LiteJobConfigurationGsonFactory() {
+    }
+
     static {
         GsonFactory.registerTypeAdapter(LiteJobConfiguration.class, new LiteJobConfigurationGsonTypeAdapter());
     }

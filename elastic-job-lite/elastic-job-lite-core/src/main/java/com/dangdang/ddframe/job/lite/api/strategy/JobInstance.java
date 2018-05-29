@@ -18,20 +18,15 @@
 package com.dangdang.ddframe.job.lite.api.strategy;
 
 import com.dangdang.ddframe.job.util.env.IpUtils;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.management.ManagementFactory;
+import java.util.Objects;
 
 /**
  * 作业运行实例.
  * 
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
-@EqualsAndHashCode(of = "jobInstanceId")
 public final class JobInstance {
     
     private static final String DELIMITER = "@-@";
@@ -44,7 +39,15 @@ public final class JobInstance {
     public JobInstance() {
         jobInstanceId = IpUtils.getIp() + DELIMITER + ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
     }
-    
+
+    public JobInstance(String jobInstanceId) {
+        this.jobInstanceId = jobInstanceId;
+    }
+
+    public String getJobInstanceId() {
+        return jobInstanceId;
+    }
+
     /**
      * 获取作业服务器IP地址.
      * 
@@ -52,5 +55,23 @@ public final class JobInstance {
      */
     public String getIp() {
         return jobInstanceId.substring(0, jobInstanceId.indexOf(DELIMITER));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        JobInstance that = (JobInstance) o;
+        return Objects.equals(jobInstanceId, that.jobInstanceId);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(jobInstanceId);
     }
 }

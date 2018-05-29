@@ -19,8 +19,6 @@ package com.dangdang.ddframe.job.util.config;
 
 import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.google.common.base.Strings;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +29,6 @@ import java.util.Map;
  *
  * @author zhangliang
  */
-@Getter
 public final class ShardingItemParameters {
     
     private static final String PARAMETER_DELIMITER = ",";
@@ -43,7 +40,11 @@ public final class ShardingItemParameters {
     public ShardingItemParameters(final String shardingItemParameters) {
         map = toMap(shardingItemParameters);
     }
-    
+
+    public Map<Integer, String> getMap() {
+        return map;
+    }
+
     private Map<Integer, String> toMap(final String originalShardingItemParameters) {
         if (Strings.isNullOrEmpty(originalShardingItemParameters)) {
             return Collections.emptyMap();
@@ -72,11 +73,15 @@ public final class ShardingItemParameters {
     /**
      * 分片项.
      */
-    @AllArgsConstructor
     private static final class ShardingItem {
         
         private final int item;
         
         private final String parameter;
+
+        public ShardingItem(int item, String parameter) {
+            this.item = item;
+            this.parameter = parameter;
+        }
     }
 }

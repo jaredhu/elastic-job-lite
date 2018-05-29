@@ -20,10 +20,6 @@ package com.dangdang.ddframe.job.event.type;
 import com.dangdang.ddframe.job.event.JobEvent;
 import com.dangdang.ddframe.job.exception.ExceptionUtil;
 import com.dangdang.ddframe.job.util.env.IpUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
@@ -33,9 +29,6 @@ import java.util.UUID;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Getter
 public final class JobExecutionEvent implements JobEvent {
     
     private String id = UUID.randomUUID().toString();
@@ -54,13 +47,10 @@ public final class JobExecutionEvent implements JobEvent {
     
     private Date startTime = new Date();
     
-    @Setter
     private Date completeTime;
     
-    @Setter
     private boolean success;
     
-    @Setter
     private JobExecutionEventThrowable failureCause;
     
     /**
@@ -87,7 +77,81 @@ public final class JobExecutionEvent implements JobEvent {
         result.setSuccess(false);
         return result;
     }
-    
+
+    public JobExecutionEvent(String taskId, String jobName, ExecutionSource source, int shardingItem) {
+        this.taskId = taskId;
+        this.jobName = jobName;
+        this.source = source;
+        this.shardingItem = shardingItem;
+    }
+
+    public JobExecutionEvent(String id, String hostname, String ip, String taskId, String jobName, ExecutionSource source, int shardingItem, Date startTime, Date completeTime, boolean success, JobExecutionEventThrowable failureCause) {
+        this.id = id;
+        this.hostname = hostname;
+        this.ip = ip;
+        this.taskId = taskId;
+        this.jobName = jobName;
+        this.source = source;
+        this.shardingItem = shardingItem;
+        this.startTime = startTime;
+        this.completeTime = completeTime;
+        this.success = success;
+        this.failureCause = failureCause;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    @Override
+    public String getJobName() {
+        return jobName;
+    }
+
+    public ExecutionSource getSource() {
+        return source;
+    }
+
+    public int getShardingItem() {
+        return shardingItem;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getCompleteTime() {
+        return completeTime;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setCompleteTime(Date completeTime) {
+        this.completeTime = completeTime;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public void setFailureCause(JobExecutionEventThrowable failureCause) {
+        this.failureCause = failureCause;
+    }
+
     /**
      * 获取失败原因.
      * 

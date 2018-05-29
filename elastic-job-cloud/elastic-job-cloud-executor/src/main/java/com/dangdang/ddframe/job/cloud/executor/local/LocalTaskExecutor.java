@@ -36,7 +36,6 @@ import com.dangdang.ddframe.job.executor.type.SimpleJobExecutor;
 import com.dangdang.ddframe.job.util.config.ShardingItemParameters;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
@@ -48,11 +47,14 @@ import java.util.Map;
  * @author gaohongtao
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class LocalTaskExecutor {
     
     private final LocalCloudJobConfiguration localCloudJobConfiguration;
-    
+
+    public LocalTaskExecutor(LocalCloudJobConfiguration localCloudJobConfiguration) {
+        this.localCloudJobConfiguration = localCloudJobConfiguration;
+    }
+
     /**
      * 本地执行作业.
      */

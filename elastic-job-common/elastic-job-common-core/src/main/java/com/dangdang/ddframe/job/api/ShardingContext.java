@@ -18,16 +18,12 @@
 package com.dangdang.ddframe.job.api;
 
 import com.dangdang.ddframe.job.executor.ShardingContexts;
-import lombok.Getter;
-import lombok.ToString;
 
 /**
  * 分片上下文.
  * 
  * @author zhangliang
  */
-@Getter
-@ToString
 public final class ShardingContext {
     
     /**
@@ -68,5 +64,41 @@ public final class ShardingContext {
         jobParameter = shardingContexts.getJobParameter();
         this.shardingItem = shardingItem;
         shardingParameter = shardingContexts.getShardingItemParameters().get(shardingItem);
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public int getShardingTotalCount() {
+        return shardingTotalCount;
+    }
+
+    public String getJobParameter() {
+        return jobParameter;
+    }
+
+    public int getShardingItem() {
+        return shardingItem;
+    }
+
+    public String getShardingParameter() {
+        return shardingParameter;
+    }
+
+    @Override
+    public String toString() {
+        return "ShardingContext{" +
+                "jobName='" + jobName + '\'' +
+                ", taskId='" + taskId + '\'' +
+                ", shardingTotalCount=" + shardingTotalCount +
+                ", jobParameter='" + jobParameter + '\'' +
+                ", shardingItem=" + shardingItem +
+                ", shardingParameter='" + shardingParameter + '\'' +
+                '}';
     }
 }

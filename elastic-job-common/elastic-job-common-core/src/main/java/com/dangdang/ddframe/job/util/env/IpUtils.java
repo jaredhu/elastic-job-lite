@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.util.env;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -31,9 +28,11 @@ import java.util.Enumeration;
  * 
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class IpUtils {
-    
+
+    private IpUtils() {
+    }
+
     /**
      * IP地址的正则表达式.
      */

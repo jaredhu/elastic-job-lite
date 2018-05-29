@@ -17,16 +17,15 @@
 
 package com.dangdang.ddframe.job.lite.spring.job.parser.script;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * 脚本作业属性解析标签.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScriptJobBeanDefinitionParserTag {
-    
+
+    private ScriptJobBeanDefinitionParserTag() {
+    }
+
     public static final String SCRIPT_COMMAND_LINE_ATTRIBUTE = "script-command-line";
 }

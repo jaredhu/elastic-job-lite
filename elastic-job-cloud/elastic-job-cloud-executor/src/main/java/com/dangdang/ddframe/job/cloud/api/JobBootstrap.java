@@ -18,8 +18,6 @@
 package com.dangdang.ddframe.job.cloud.api;
 
 import com.dangdang.ddframe.job.cloud.executor.TaskExecutor;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.apache.mesos.MesosExecutorDriver;
 import org.apache.mesos.Protos;
 
@@ -31,9 +29,11 @@ import org.apache.mesos.Protos;
  * @author caohao
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobBootstrap {
-    
+
+    private JobBootstrap() {
+    }
+
     /**
      * 执行作业.
      */

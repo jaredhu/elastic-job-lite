@@ -20,8 +20,6 @@ package com.dangdang.ddframe.job.config.dataflow;
 import com.dangdang.ddframe.job.api.JobType;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 数据流作业配置信息.
@@ -29,8 +27,6 @@ import lombok.RequiredArgsConstructor;
  * @author caohao
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class DataflowJobConfiguration implements JobTypeConfiguration {
     
     private final JobCoreConfiguration coreConfig;
@@ -38,6 +34,36 @@ public final class DataflowJobConfiguration implements JobTypeConfiguration {
     private final JobType jobType = JobType.DATAFLOW;
     
     private final String jobClass;
-    
+
+    //流数据处理
     private final boolean streamingProcess;
+
+    public DataflowJobConfiguration(JobCoreConfiguration coreConfig, String jobClass, boolean streamingProcess) {
+        this.coreConfig = coreConfig;
+        this.jobClass = jobClass;
+        this.streamingProcess = streamingProcess;
+    }
+
+    @Override
+    public JobCoreConfiguration getCoreConfig() {
+        return coreConfig;
+    }
+
+    @Override
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    @Override
+    public String getJobClass() {
+        return jobClass;
+    }
+
+    /**
+     * 是否流数据处理
+     * @return true or false
+     */
+    public boolean isStreamingProcess() {
+        return streamingProcess;
+    }
 }

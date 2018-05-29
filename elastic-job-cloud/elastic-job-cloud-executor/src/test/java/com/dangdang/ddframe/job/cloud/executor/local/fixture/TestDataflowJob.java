@@ -21,20 +21,27 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
 public final class TestDataflowJob implements DataflowJob<String> {
     
-    @Setter
     private static List<String> input;
     
-    @Getter
-    @Setter
     private static List<String> output;
-    
+
+    public static void setInput(List<String> input) {
+        TestDataflowJob.input = input;
+    }
+
+    public static List<String> getOutput() {
+        return output;
+    }
+
+    public static void setOutput(List<String> output) {
+        TestDataflowJob.output = output;
+    }
+
     @Override
     public List<String> fetchData(final ShardingContext shardingContext) {
         return input;

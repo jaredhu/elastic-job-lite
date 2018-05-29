@@ -17,19 +17,14 @@
 
 package com.dangdang.ddframe.job.lite.internal.monitor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SocketUtils {
-    
+
+    private SocketUtils() {
+    }
+
     public static String sendCommand(final String command, final int monitorPort) throws IOException {
         try (
                 Socket socket = new Socket("127.0.0.1", monitorPort);

@@ -20,18 +20,25 @@ package com.dangdang.ddframe.job.lite.spring.fixture.job.ref;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.lite.spring.fixture.service.FooService;
-import lombok.Getter;
-import lombok.Setter;
 
 public class RefFooSimpleElasticJob implements SimpleJob {
 
-    @Getter
     private static volatile boolean completed;
     
-    @Getter
-    @Setter
     private FooService fooService;
-    
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
+    public FooService getFooService() {
+        return fooService;
+    }
+
+    public void setFooService(FooService fooService) {
+        this.fooService = fooService;
+    }
+
     @Override
     public void execute(final ShardingContext shardingContext) {
         fooService.foo();

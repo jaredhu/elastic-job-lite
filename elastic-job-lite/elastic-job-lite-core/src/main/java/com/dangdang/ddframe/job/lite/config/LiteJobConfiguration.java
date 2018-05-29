@@ -19,10 +19,6 @@ package com.dangdang.ddframe.job.lite.config;
 
 import com.dangdang.ddframe.job.config.JobRootConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Lite作业配置.
@@ -30,8 +26,6 @@ import lombok.RequiredArgsConstructor;
  * @author caohao
  * @author zhangliang
  */
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LiteJobConfiguration implements JobRootConfiguration {
     
     private final JobTypeConfiguration typeConfig;
@@ -49,7 +43,51 @@ public final class LiteJobConfiguration implements JobRootConfiguration {
     private final boolean disabled;
     
     private final boolean overwrite;
-    
+
+    private LiteJobConfiguration(JobTypeConfiguration typeConfig, boolean monitorExecution, int maxTimeDiffSeconds, int monitorPort, String jobShardingStrategyClass, int reconcileIntervalMinutes, boolean disabled, boolean overwrite) {
+        this.typeConfig = typeConfig;
+        this.monitorExecution = monitorExecution;
+        this.maxTimeDiffSeconds = maxTimeDiffSeconds;
+        this.monitorPort = monitorPort;
+        this.jobShardingStrategyClass = jobShardingStrategyClass;
+        this.reconcileIntervalMinutes = reconcileIntervalMinutes;
+        this.disabled = disabled;
+        this.overwrite = overwrite;
+    }
+
+    @Override
+    public JobTypeConfiguration getTypeConfig() {
+        return typeConfig;
+    }
+
+    public boolean isMonitorExecution() {
+        return monitorExecution;
+    }
+
+    public int getMaxTimeDiffSeconds() {
+        return maxTimeDiffSeconds;
+    }
+
+    public int getMonitorPort() {
+        return monitorPort;
+    }
+
+    public String getJobShardingStrategyClass() {
+        return jobShardingStrategyClass;
+    }
+
+    public int getReconcileIntervalMinutes() {
+        return reconcileIntervalMinutes;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public boolean isOverwrite() {
+        return overwrite;
+    }
+
     /**
      * 获取作业名称.
      * 
@@ -78,7 +116,6 @@ public final class LiteJobConfiguration implements JobRootConfiguration {
         return new Builder(jobConfig);
     }
     
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
         
         private final JobTypeConfiguration jobConfig;
@@ -96,7 +133,11 @@ public final class LiteJobConfiguration implements JobRootConfiguration {
         private boolean overwrite;
         
         private int reconcileIntervalMinutes = 10;
-    
+
+        private Builder(JobTypeConfiguration jobConfig) {
+            this.jobConfig = jobConfig;
+        }
+
         /**
          * 设置监控作业执行时状态.
          *

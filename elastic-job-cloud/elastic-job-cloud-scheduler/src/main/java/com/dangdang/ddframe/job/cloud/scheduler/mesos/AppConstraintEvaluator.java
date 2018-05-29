@@ -22,17 +22,12 @@ import com.dangdang.ddframe.job.cloud.scheduler.config.job.CloudJobConfiguration
 import com.dangdang.ddframe.job.context.TaskContext;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.netflix.fenzo.ConstraintEvaluator;
-import com.netflix.fenzo.TaskAssignmentResult;
-import com.netflix.fenzo.TaskRequest;
-import com.netflix.fenzo.TaskTrackerState;
-import com.netflix.fenzo.VirtualMachineCurrentState;
+import com.netflix.fenzo.*;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -48,16 +43,20 @@ import java.util.Set;
  * 
  * @author gaohongtao
  */
-@Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AppConstraintEvaluator implements ConstraintEvaluator {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppConstraintEvaluator.class);
     
     private static AppConstraintEvaluator instance;
     
     private final Set<String> runningApps = new HashSet<>();
     
     private final FacadeService facadeService;
-    
+
+    private AppConstraintEvaluator(FacadeService facadeService) {
+        this.facadeService = facadeService;
+    }
+
     /**
      * 初始化.
      * 
@@ -120,18 +119,18 @@ public final class AppConstraintEvaluator implements ConstraintEvaluator {
                 assigningMemoryMB += assigningAppConfig.getMemoryMB();
             }
         } catch (final LackConfigException ex) {
-            log.warn("Lack config, disable {}", getName(), ex);
+            logger.warn("Lack config, disable {}", getName(), ex);
             return new Result(true, "");
         }
         if (assigningCpus > targetVM.getCurrAvailableResources().cpuCores()) {
-            log.debug("Failure {} {} cpus:{}/{}", taskRequest.getId(), slaveId, assigningCpus, targetVM.getCurrAvailableResources().cpuCores());
+            logger.debug("Failure {} {} cpus:{}/{}", taskRequest.getId(), slaveId, assigningCpus, targetVM.getCurrAvailableResources().cpuCores());
             return new Result(false, String.format("cpu:%s/%s", assigningCpus, targetVM.getCurrAvailableResources().cpuCores()));
         }
         if (assigningMemoryMB > targetVM.getCurrAvailableResources().memoryMB()) {
-            log.debug("Failure {} {} mem:{}/{}", taskRequest.getId(), slaveId, assigningMemoryMB, targetVM.getCurrAvailableResources().memoryMB());
+            logger.debug("Failure {} {} mem:{}/{}", taskRequest.getId(), slaveId, assigningMemoryMB, targetVM.getCurrAvailableResources().memoryMB());
             return new Result(false, String.format("mem:%s/%s", assigningMemoryMB, targetVM.getCurrAvailableResources().memoryMB()));
         }
-        log.debug("Success {} {} cpus:{}/{} mem:{}/{}", taskRequest.getId(), slaveId, assigningCpus, targetVM.getCurrAvailableResources()
+        logger.debug("Success {} {} cpus:{}/{} mem:{}/{}", taskRequest.getId(), slaveId, assigningCpus, targetVM.getCurrAvailableResources()
                 .cpuCores(), assigningMemoryMB, targetVM.getCurrAvailableResources().memoryMB());
         return new Result(true, String.format("cpus:%s/%s mem:%s/%s", assigningCpus, targetVM.getCurrAvailableResources()
                 .cpuCores(), assigningMemoryMB, targetVM.getCurrAvailableResources().memoryMB()));

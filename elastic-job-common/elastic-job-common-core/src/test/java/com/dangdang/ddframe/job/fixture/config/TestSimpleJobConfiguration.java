@@ -25,15 +25,16 @@ import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.dangdang.ddframe.job.fixture.ShardingContextsBuilder;
 import com.dangdang.ddframe.job.fixture.handler.ThrowJobExceptionHandler;
 import com.dangdang.ddframe.job.fixture.job.TestSimpleJob;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 public final class TestSimpleJobConfiguration implements JobRootConfiguration {
     
     private String jobExceptionHandlerClassName;
     
     private String executorServiceHandlerClassName;
-    
+
+    public TestSimpleJobConfiguration() {
+    }
+
     public TestSimpleJobConfiguration(final String jobExceptionHandlerClassName, final String executorServiceHandlerClassName) {
         this.jobExceptionHandlerClassName = jobExceptionHandlerClassName;
         this.executorServiceHandlerClassName = executorServiceHandlerClassName;

@@ -28,14 +28,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -44,13 +38,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class RunningService {
     
     private static final int TASK_INITIAL_SIZE = 1024;
     
     // TODO 使用JMX导出
-    @Getter
     private static final ConcurrentHashMap<String, Set<TaskContext>> RUNNING_TASKS = new ConcurrentHashMap<>(TASK_INITIAL_SIZE);
     
     private static final ConcurrentHashMap<String, String> TASK_HOSTNAME_MAPPER = new ConcurrentHashMap<>(TASK_INITIAL_SIZE);
@@ -58,12 +50,21 @@ public final class RunningService {
     private final CoordinatorRegistryCenter regCenter;
     
     private final CloudJobConfigurationService configurationService;
-    
+
+    public RunningService(CoordinatorRegistryCenter regCenter, CloudJobConfigurationService configurationService) {
+        this.regCenter = regCenter;
+        this.configurationService = configurationService;
+    }
+
     public RunningService(final CoordinatorRegistryCenter regCenter) {
         this.regCenter = regCenter;
         this.configurationService = new CloudJobConfigurationService(regCenter);
     }
-    
+
+    public static ConcurrentHashMap<String, Set<TaskContext>> getRunningTasks() {
+        return RUNNING_TASKS;
+    }
+
     /**
      * 启动任务运行队列.
      */

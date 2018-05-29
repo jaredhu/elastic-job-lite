@@ -22,10 +22,9 @@ import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,12 +36,16 @@ import java.util.Properties;
  *
  * @author zhangliang
  */
-@Slf4j
 public final class BootstrapEnvironment {
+
+    private  static  final Logger logger = LoggerFactory.getLogger(BootstrapEnvironment.class);
     
-    @Getter
     private static BootstrapEnvironment instance = new BootstrapEnvironment();
-    
+
+    public static BootstrapEnvironment getInstance() {
+        return instance;
+    }
+
     private static final String PROPERTIES_PATH = "conf/elastic-job-cloud-scheduler.properties";
     
     private final Properties properties;
@@ -56,7 +59,7 @@ public final class BootstrapEnvironment {
         try (FileInputStream fileInputStream = new FileInputStream(PROPERTIES_PATH)) {
             result.load(fileInputStream);
         } catch (final IOException ex) {
-            log.warn("Can not load properties file from path: '{}'.", PROPERTIES_PATH);
+            logger.warn("Can not load properties file from path: '{}'.", PROPERTIES_PATH);
         }
         setPropertiesByEnv(result);
         return result;
@@ -67,7 +70,7 @@ public final class BootstrapEnvironment {
             String key = each.getKey();
             String value = System.getenv(key);
             if (!Strings.isNullOrEmpty(value)) {
-                log.info("Load property {} with value {} from ENV.", key, value);
+                logger.info("Load property {} with value {} from ENV.", key, value);
                 prop.setProperty(each.getKey(), value);
             }
         }
@@ -187,8 +190,6 @@ public final class BootstrapEnvironment {
      * 
      * @author zhangliang
      */
-    @RequiredArgsConstructor
-    @Getter
     public enum EnvironmentArgument {
         
         HOSTNAME("hostname", "localhost", true),
@@ -224,5 +225,23 @@ public final class BootstrapEnvironment {
         private final String defaultValue;
         
         private final boolean required;
+
+        EnvironmentArgument(String key, String defaultValue, boolean required) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+            this.required = required;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getDefaultValue() {
+            return defaultValue;
+        }
+
+        public boolean isRequired() {
+            return required;
+        }
     }
 }

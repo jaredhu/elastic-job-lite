@@ -28,7 +28,6 @@ import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent.State;
 import com.dangdang.ddframe.job.exception.JobExecutionEnvironmentException;
 import com.dangdang.ddframe.job.executor.JobFacade;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
 
@@ -37,7 +36,6 @@ import java.util.Collection;
  * 
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class CloudJobFacade implements JobFacade {
     
     private final ShardingContexts shardingContexts;
@@ -45,7 +43,13 @@ public final class CloudJobFacade implements JobFacade {
     private final JobConfigurationContext jobConfig;
     
     private final JobEventBus jobEventBus;
-    
+
+    public CloudJobFacade(ShardingContexts shardingContexts, JobConfigurationContext jobConfig, JobEventBus jobEventBus) {
+        this.shardingContexts = shardingContexts;
+        this.jobConfig = jobConfig;
+        this.jobEventBus = jobEventBus;
+    }
+
     @Override
     public JobRootConfiguration loadJobRootConfiguration(final boolean fromCache) {
         return jobConfig;
@@ -67,6 +71,7 @@ public final class CloudJobFacade implements JobFacade {
     public void registerJobCompleted(final ShardingContexts shardingContexts) {
     }
     
+    @Override
     public ShardingContexts getShardingContexts() {
         return shardingContexts;
     }

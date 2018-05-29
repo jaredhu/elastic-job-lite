@@ -36,15 +36,11 @@ import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 为Mesos提供的门面服务.
@@ -52,8 +48,9 @@ import java.util.Set;
  * @author zhangliang
  * @author caohao
  */
-@Slf4j
 public final class FacadeService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppConstraintEvaluator.class);
     
     private final CloudAppConfigurationService appConfigService;
     
@@ -86,7 +83,7 @@ public final class FacadeService {
      * 启动门面服务.
      */
     public void start() {
-        log.info("Elastic Job: Start facade service");
+        logger.info("Elastic Job: Start facade service");
         runningService.start();
     }
     
@@ -342,7 +339,7 @@ public final class FacadeService {
      * 停止门面服务.
      */
     public void stop() {
-        log.info("Elastic Job: Stop facade service");
+        logger.info("Elastic Job: Stop facade service");
         // TODO 停止作业调度
         runningService.clear();
     }

@@ -17,17 +17,20 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.env;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Restful服务器配置项.
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class RestfulServerConfiguration {
     
     private final int port;
+
+    public RestfulServerConfiguration(int port) {
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
+    }
 }

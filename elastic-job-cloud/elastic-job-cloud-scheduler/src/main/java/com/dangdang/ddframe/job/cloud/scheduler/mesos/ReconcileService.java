@@ -23,10 +23,10 @@ import com.dangdang.ddframe.job.context.TaskContext;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.util.concurrent.AbstractScheduledService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.mesos.Protos;
 import org.apache.mesos.SchedulerDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,14 +39,19 @@ import java.util.concurrent.locks.ReentrantLock;
  * 
  * @author gaohongtao
  */
-@RequiredArgsConstructor
-@Slf4j
 public class ReconcileService extends AbstractScheduledService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppConstraintEvaluator.class);
     
     private final SchedulerDriver schedulerDriver;
     
     private final FacadeService facadeService;
-    
+
+    public ReconcileService(SchedulerDriver schedulerDriver, FacadeService facadeService) {
+        this.schedulerDriver = schedulerDriver;
+        this.facadeService = facadeService;
+    }
+
     private final ReentrantLock lock = new ReentrantLock();
     
     @Override
@@ -73,7 +78,7 @@ public class ReconcileService extends AbstractScheduledService {
             if (runningTask.isEmpty()) {
                 return;
             }
-            log.info("Requesting {} tasks reconciliation with the Mesos master", runningTask.size());
+            logger.info("Requesting {} tasks reconciliation with the Mesos master", runningTask.size());
             schedulerDriver.reconcileTasks(Collections2.transform(runningTask, new Function<TaskContext, Protos.TaskStatus>() {
                 @Override
                 public Protos.TaskStatus apply(final TaskContext input) {

@@ -22,9 +22,6 @@ import com.dangdang.ddframe.job.reg.exception.RegExceptionHandler;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.ACLProvider;
@@ -37,12 +34,10 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -51,24 +46,31 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author zhangliang
  */
-@Slf4j
 public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
+
+    private static final Logger logger = LoggerFactory.getLogger(ZookeeperRegistryCenter.class);
     
-    @Getter(AccessLevel.PROTECTED)
     private ZookeeperConfiguration zkConfig;
     
     private final Map<String, TreeCache> caches = new HashMap<>();
     
-    @Getter
     private CuratorFramework client;
-    
+
+    protected ZookeeperConfiguration getZkConfig() {
+        return zkConfig;
+    }
+
+    public CuratorFramework getClient() {
+        return client;
+    }
+
     public ZookeeperRegistryCenter(final ZookeeperConfiguration zkConfig) {
         this.zkConfig = zkConfig;
     }
     
     @Override
     public void init() {
-        log.debug("Elastic job: zookeeper registry center init, server lists is: {}.", zkConfig.getServerLists());
+        logger.debug("Elastic job: zookeeper registry center init, server lists is: {}.", zkConfig.getServerLists());
         CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
                 .connectString(zkConfig.getServerLists())
                 .retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds()))

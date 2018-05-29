@@ -12,6 +12,7 @@
         <module>elastic-job-common</module>
         <module>elastic-job-lite</module>
         <module>elastic-job-cloud</module>
+        <module>elastic-job-example</module>
     </modules>
     
     <properties>
@@ -22,7 +23,7 @@
         
         <springframework.version>[3.1.0.RELEASE,5.0.0.M1)</springframework.version>
         
-        <lombok.version>1.16.4</lombok.version>
+        <!--<lombok.version>1.16.4</lombok.version>-->
         <guava.version>18.0</guava.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <quartz.version>2.2.1</quartz.version>
@@ -75,12 +76,12 @@
     
     <dependencyManagement>
         <dependencies>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

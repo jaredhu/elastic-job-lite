@@ -21,14 +21,8 @@ import com.dangdang.ddframe.job.lite.internal.storage.JobNodePath;
 import com.dangdang.ddframe.job.lite.lifecycle.api.ServerStatisticsAPI;
 import com.dangdang.ddframe.job.lite.lifecycle.domain.ServerBriefInfo;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,11 +30,14 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author caohao
  */
-@RequiredArgsConstructor
 public final class ServerStatisticsAPIImpl implements ServerStatisticsAPI {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public ServerStatisticsAPIImpl(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     @Override
     public int getServersTotalCount() {
         Set<String> servers = new HashSet<>();

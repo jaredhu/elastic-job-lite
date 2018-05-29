@@ -17,11 +17,6 @@
 
 package com.dangdang.ddframe.job.executor;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -30,9 +25,6 @@ import java.util.Map;
  * 
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
-@ToString
 public final class ShardingContexts implements Serializable {
     
     private static final long serialVersionUID = -4585977349142082152L;
@@ -71,13 +63,11 @@ public final class ShardingContexts implements Serializable {
     /**
      * 当前作业事件采样统计数.
      */
-    @Setter
     private int currentJobEventSamplingCount;
     
     /**
      * 是否允许可以发送作业事件.
      */
-    @Setter
     private boolean allowSendJobEvent = true;
     
     public ShardingContexts(final String taskId, final String jobName, final int shardingTotalCount, final String jobParameter, 
@@ -88,5 +78,67 @@ public final class ShardingContexts implements Serializable {
         this.jobParameter = jobParameter;
         this.shardingItemParameters = shardingItemParameters;
         this.jobEventSamplingCount = jobEventSamplingCount;
+    }
+
+    public ShardingContexts(String taskId, String jobName, int shardingTotalCount, String jobParameter, Map<Integer, String> shardingItemParameters) {
+        this.taskId = taskId;
+        this.jobName = jobName;
+        this.shardingTotalCount = shardingTotalCount;
+        this.jobParameter = jobParameter;
+        this.shardingItemParameters = shardingItemParameters;
+    }
+
+    public void setCurrentJobEventSamplingCount(int currentJobEventSamplingCount) {
+        this.currentJobEventSamplingCount = currentJobEventSamplingCount;
+    }
+
+    public void setAllowSendJobEvent(boolean allowSendJobEvent) {
+        this.allowSendJobEvent = allowSendJobEvent;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public int getShardingTotalCount() {
+        return shardingTotalCount;
+    }
+
+    public String getJobParameter() {
+        return jobParameter;
+    }
+
+    public Map<Integer, String> getShardingItemParameters() {
+        return shardingItemParameters;
+    }
+
+    public int getJobEventSamplingCount() {
+        return jobEventSamplingCount;
+    }
+
+    public int getCurrentJobEventSamplingCount() {
+        return currentJobEventSamplingCount;
+    }
+
+    public boolean isAllowSendJobEvent() {
+        return allowSendJobEvent;
+    }
+
+    @Override
+    public String toString() {
+        return "ShardingContexts{" +
+                "taskId='" + taskId + '\'' +
+                ", jobName='" + jobName + '\'' +
+                ", shardingTotalCount=" + shardingTotalCount +
+                ", jobParameter='" + jobParameter + '\'' +
+                ", shardingItemParameters=" + shardingItemParameters +
+                ", jobEventSamplingCount=" + jobEventSamplingCount +
+                ", currentJobEventSamplingCount=" + currentJobEventSamplingCount +
+                ", allowSendJobEvent=" + allowSendJobEvent +
+                '}';
     }
 }

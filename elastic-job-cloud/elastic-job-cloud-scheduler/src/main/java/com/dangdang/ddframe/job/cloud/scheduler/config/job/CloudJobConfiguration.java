@@ -19,18 +19,12 @@ package com.dangdang.ddframe.job.cloud.scheduler.config.job;
 
 import com.dangdang.ddframe.job.config.JobRootConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 云作业配置对象.
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Getter
 public final class CloudJobConfiguration implements JobRootConfiguration {
     
     private final String appName;
@@ -54,5 +48,53 @@ public final class CloudJobConfiguration implements JobRootConfiguration {
      */
     public String getJobName() {
         return typeConfig.getCoreConfig().getJobName();
+    }
+
+
+    public CloudJobConfiguration(String appName, JobTypeConfiguration typeConfig, double cpuCount, double memoryMB, CloudJobExecutionType jobExecutionType) {
+        this.appName = appName;
+        this.typeConfig = typeConfig;
+        this.cpuCount = cpuCount;
+        this.memoryMB = memoryMB;
+        this.jobExecutionType = jobExecutionType;
+    }
+
+    public CloudJobConfiguration(String appName, JobTypeConfiguration typeConfig, double cpuCount, double memoryMB, CloudJobExecutionType jobExecutionType, String beanName, String applicationContext) {
+        this.appName = appName;
+        this.typeConfig = typeConfig;
+        this.cpuCount = cpuCount;
+        this.memoryMB = memoryMB;
+        this.jobExecutionType = jobExecutionType;
+        this.beanName = beanName;
+        this.applicationContext = applicationContext;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    @Override
+    public JobTypeConfiguration getTypeConfig() {
+        return typeConfig;
+    }
+
+    public double getCpuCount() {
+        return cpuCount;
+    }
+
+    public double getMemoryMB() {
+        return memoryMB;
+    }
+
+    public CloudJobExecutionType getJobExecutionType() {
+        return jobExecutionType;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public String getApplicationContext() {
+        return applicationContext;
     }
 }

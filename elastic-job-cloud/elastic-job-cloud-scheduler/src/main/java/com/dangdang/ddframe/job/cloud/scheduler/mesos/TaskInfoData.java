@@ -23,7 +23,6 @@ import com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration;
 import com.dangdang.ddframe.job.config.script.ScriptJobConfiguration;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.LinkedHashMap;
@@ -34,13 +33,17 @@ import java.util.Map;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class TaskInfoData {
     
     private final ShardingContexts shardingContexts;
     
     private final CloudJobConfiguration jobConfig;
-    
+
+    public TaskInfoData(ShardingContexts shardingContexts, CloudJobConfiguration jobConfig) {
+        this.shardingContexts = shardingContexts;
+        this.jobConfig = jobConfig;
+    }
+
     /**
      * 序列化.
      * 

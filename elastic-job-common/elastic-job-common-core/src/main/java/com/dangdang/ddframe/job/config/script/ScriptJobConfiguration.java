@@ -21,8 +21,6 @@ import com.dangdang.ddframe.job.api.JobType;
 import com.dangdang.ddframe.job.api.script.ScriptJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 脚本作业配置.
@@ -30,8 +28,6 @@ import lombok.RequiredArgsConstructor;
  * @author caohao
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class ScriptJobConfiguration implements JobTypeConfiguration {
     
     private final JobCoreConfiguration coreConfig;
@@ -41,4 +37,28 @@ public final class ScriptJobConfiguration implements JobTypeConfiguration {
     private final String jobClass = ScriptJob.class.getCanonicalName();
     
     private final String scriptCommandLine;
+
+    public ScriptJobConfiguration(JobCoreConfiguration coreConfig, String scriptCommandLine) {
+        this.coreConfig = coreConfig;
+        this.scriptCommandLine = scriptCommandLine;
+    }
+
+    @Override
+    public JobCoreConfiguration getCoreConfig() {
+        return coreConfig;
+    }
+
+    @Override
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    @Override
+    public String getJobClass() {
+        return jobClass;
+    }
+
+    public String getScriptCommandLine() {
+        return scriptCommandLine;
+    }
 }

@@ -18,17 +18,11 @@
 package com.dangdang.ddframe.job.executor.handler;
 
 import com.dangdang.ddframe.job.executor.handler.impl.DefaultExecutorServiceHandler;
-import lombok.RequiredArgsConstructor;
 import org.junit.After;
 import org.junit.Test;
 
 import java.util.Set;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -69,7 +63,6 @@ public final class ExecutorServiceHandlerRegistryTest {
         assertThat(ExecutorServiceHandlerRegistry.getExecutorServiceHandler("test_job", new DefaultExecutorServiceHandler()), is(set.iterator().next()));
     }
     
-    @RequiredArgsConstructor
     class GetExecutorServiceHandlerTask implements Runnable {
         
         private final CyclicBarrier barrier;
@@ -77,7 +70,13 @@ public final class ExecutorServiceHandlerRegistryTest {
         private final CountDownLatch latch;
         
         private final Set<ExecutorService> set;
-        
+
+        public GetExecutorServiceHandlerTask(CyclicBarrier barrier, CountDownLatch latch, Set<ExecutorService> set) {
+            this.barrier = barrier;
+            this.latch = latch;
+            this.set = set;
+        }
+
         @Override
         public void run() {
             try {

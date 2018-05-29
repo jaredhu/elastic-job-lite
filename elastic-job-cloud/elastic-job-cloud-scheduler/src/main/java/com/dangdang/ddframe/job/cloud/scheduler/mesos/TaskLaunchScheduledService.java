@@ -18,10 +18,10 @@
 package com.dangdang.ddframe.job.cloud.scheduler.mesos;
 
 import com.dangdang.ddframe.job.api.JobType;
-import com.dangdang.ddframe.job.cloud.scheduler.env.BootstrapEnvironment;
+import com.dangdang.ddframe.job.cloud.scheduler.config.app.CloudAppConfiguration;
 import com.dangdang.ddframe.job.cloud.scheduler.config.job.CloudJobConfiguration;
 import com.dangdang.ddframe.job.cloud.scheduler.config.job.CloudJobExecutionType;
-import com.dangdang.ddframe.job.cloud.scheduler.config.app.CloudAppConfiguration;
+import com.dangdang.ddframe.job.cloud.scheduler.env.BootstrapEnvironment;
 import com.dangdang.ddframe.job.config.script.ScriptJobConfiguration;
 import com.dangdang.ddframe.job.context.ExecutionType;
 import com.dangdang.ddframe.job.context.TaskContext;
@@ -37,26 +37,17 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import com.google.protobuf.ByteString;
-import com.netflix.fenzo.TaskAssignmentResult;
-import com.netflix.fenzo.TaskRequest;
-import com.netflix.fenzo.TaskScheduler;
-import com.netflix.fenzo.VMAssignmentResult;
-import com.netflix.fenzo.VirtualMachineLease;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.netflix.fenzo.*;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.mesos.Protos;
 import org.apache.mesos.Protos.OfferID;
 import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.SchedulerDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -66,9 +57,9 @@ import java.util.concurrent.TimeUnit;
  * @author zhangliang
  * @author gaohongtao
  */
-@RequiredArgsConstructor
-@Slf4j
 public final class TaskLaunchScheduledService extends AbstractScheduledService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppConstraintEvaluator.class);
     
     private final SchedulerDriver schedulerDriver;
     
@@ -77,8 +68,15 @@ public final class TaskLaunchScheduledService extends AbstractScheduledService {
     private final FacadeService facadeService;
     
     private final JobEventBus jobEventBus;
-    
+
     private final BootstrapEnvironment env = BootstrapEnvironment.getInstance();
+
+    public TaskLaunchScheduledService(SchedulerDriver schedulerDriver, TaskScheduler taskScheduler, FacadeService facadeService, JobEventBus jobEventBus) {
+        this.schedulerDriver = schedulerDriver;
+        this.taskScheduler = taskScheduler;
+        this.facadeService = facadeService;
+        this.jobEventBus = jobEventBus;
+    }
     
     @Override
     protected String serviceName() {
@@ -92,13 +90,13 @@ public final class TaskLaunchScheduledService extends AbstractScheduledService {
     
     @Override
     protected void startUp() throws Exception {
-        log.info("Elastic Job: Start {}", serviceName());
+        logger.info("Elastic Job: Start {}", serviceName());
         AppConstraintEvaluator.init(facadeService);
     }
     
     @Override
     protected void shutDown() throws Exception {
-        log.info("Elastic Job: Stop {}", serviceName());
+        logger.info("Elastic Job: Stop {}", serviceName());
     }
     
     @Override
@@ -132,7 +130,7 @@ public final class TaskLaunchScheduledService extends AbstractScheduledService {
             //CHECKSTYLE:OFF
         } catch (Throwable throwable) {
             //CHECKSTYLE:ON
-            log.error("Launch task error", throwable);
+            logger.error("Launch task error", throwable);
         } finally {
             AppConstraintEvaluator.getInstance().clearAppRunningState();
         }

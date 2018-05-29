@@ -20,8 +20,6 @@ package com.dangdang.ddframe.job.util.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Type;
 
@@ -30,13 +28,15 @@ import java.lang.reflect.Type;
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GsonFactory {
     
     private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
     
     private static volatile Gson gson = GSON_BUILDER.create();
-    
+
+    private GsonFactory() {
+    }
+
     /**
      * 注册Gson解析对象.
      * 

@@ -20,8 +20,6 @@ package com.dangdang.ddframe.job.event.rdb;
 import com.dangdang.ddframe.job.event.JobEventConfiguration;
 import com.dangdang.ddframe.job.event.JobEventListener;
 import com.dangdang.ddframe.job.event.JobEventListenerConfigurationException;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
@@ -32,13 +30,19 @@ import java.sql.SQLException;
  *
  * @author caohao
  */
-@RequiredArgsConstructor
-@Getter
 public final class JobEventRdbConfiguration extends JobEventRdbIdentity implements JobEventConfiguration, Serializable {
     
     private static final long serialVersionUID = 3344410699286435226L;
     
     private final transient DataSource dataSource;
+
+    public JobEventRdbConfiguration(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
     
     @Override
     public JobEventListener createJobEventListener() throws JobEventListenerConfigurationException {
@@ -48,4 +52,5 @@ public final class JobEventRdbConfiguration extends JobEventRdbIdentity implemen
             throw new JobEventListenerConfigurationException(ex);
         }
     }
+
 }

@@ -17,10 +17,6 @@
 
 package com.dangdang.ddframe.job.statistics.type.job;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Date;
 
 /**
@@ -28,9 +24,6 @@ import java.util.Date;
  *
  * @author liguangyun
  */
-@Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
 public final class JobRunningStatistics {
     
     private long id;
@@ -40,4 +33,32 @@ public final class JobRunningStatistics {
     private final Date statisticsTime;
     
     private Date creationTime = new Date();
+
+    public JobRunningStatistics(int runningCount, Date statisticsTime) {
+        this.runningCount = runningCount;
+        this.statisticsTime = statisticsTime;
+    }
+
+    public JobRunningStatistics(long id, int runningCount, Date statisticsTime, Date creationTime) {
+        this.id = id;
+        this.runningCount = runningCount;
+        this.statisticsTime = statisticsTime;
+        this.creationTime = creationTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public int getRunningCount() {
+        return runningCount;
+    }
+
+    public Date getStatisticsTime() {
+        return statisticsTime;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
 }

@@ -19,10 +19,11 @@ package com.dangdang.ddframe.job.reg.zookeeper;
 
 import com.dangdang.ddframe.job.exception.JobSystemException;
 import com.dangdang.ddframe.job.reg.base.ElectionCandidate;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -32,8 +33,9 @@ import java.util.concurrent.CountDownLatch;
  * @author gaohongtao
  * @author caohao
  */
-@Slf4j
 public final class ZookeeperElectionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ZookeeperElectionService.class);
     
     private final CountDownLatch leaderLatch = new CountDownLatch(1);
     
@@ -44,14 +46,14 @@ public final class ZookeeperElectionService {
             
             @Override
             public void takeLeadership(final CuratorFramework client) throws Exception {
-                log.info("Elastic job: {} has leadership", identity);
+                logger.info("Elastic job: {} has leadership", identity);
                 try {
                     electionCandidate.startLeadership();
                     leaderLatch.await();
-                    log.warn("Elastic job: {} lost leadership.", identity);
+                    logger.warn("Elastic job: {} lost leadership.", identity);
                     electionCandidate.stopLeadership();
                 } catch (final JobSystemException exception) {
-                    log.error("Elastic job: Starting error", exception);
+                    logger.error("Elastic job: Starting error", exception);
                     System.exit(1);  
                 }
             }
@@ -64,7 +66,7 @@ public final class ZookeeperElectionService {
      * 开始选举.
      */
     public void start() {
-        log.debug("Elastic job: {} start to elect leadership", leaderSelector.getId());
+        logger.debug("Elastic job: {} start to elect leadership", leaderSelector.getId());
         leaderSelector.start();
     }
     
@@ -72,7 +74,7 @@ public final class ZookeeperElectionService {
      * 停止选举.
      */
     public void stop() {
-        log.info("Elastic job: stop leadership election");
+        logger.info("Elastic job: stop leadership election");
         leaderLatch.countDown();
         try {
             leaderSelector.close();

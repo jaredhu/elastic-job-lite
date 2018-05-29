@@ -17,19 +17,19 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.state.failover;
 
-import com.dangdang.ddframe.job.context.TaskContext;
 import com.dangdang.ddframe.job.cloud.scheduler.state.StateNode;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.dangdang.ddframe.job.context.TaskContext;
 
 /**
  * 待失效转移任务队列节点路径.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class FailoverNode {
-    
+
+    private FailoverNode() {
+    }
+
     static final String ROOT = StateNode.ROOT + "/failover";
     
     private static final String FAILOVER_JOB = ROOT + "/%s";

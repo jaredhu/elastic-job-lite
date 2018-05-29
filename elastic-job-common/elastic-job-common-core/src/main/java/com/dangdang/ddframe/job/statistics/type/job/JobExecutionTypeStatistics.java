@@ -17,19 +17,27 @@
 
 package com.dangdang.ddframe.job.statistics.type.job;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 作业执行类型统计数据.
  *
  * @author liguangyun
  */
-@Getter
-@AllArgsConstructor
 public final class JobExecutionTypeStatistics {
     
     private int transientJobCount;
     
     private int daemonJobCount;
+
+    public JobExecutionTypeStatistics(int transientJobCount, int daemonJobCount) {
+        this.transientJobCount = transientJobCount;
+        this.daemonJobCount = daemonJobCount;
+    }
+
+    public int getTransientJobCount() {
+        return transientJobCount;
+    }
+
+    public int getDaemonJobCount() {
+        return daemonJobCount;
+    }
 }

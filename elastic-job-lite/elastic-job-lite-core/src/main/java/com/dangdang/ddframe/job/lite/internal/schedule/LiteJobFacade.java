@@ -30,13 +30,14 @@ import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.internal.config.ConfigurationService;
+import com.dangdang.ddframe.job.lite.internal.failover.FailoverService;
 import com.dangdang.ddframe.job.lite.internal.sharding.ExecutionContextService;
 import com.dangdang.ddframe.job.lite.internal.sharding.ExecutionService;
-import com.dangdang.ddframe.job.lite.internal.failover.FailoverService;
 import com.dangdang.ddframe.job.lite.internal.sharding.ShardingService;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -46,8 +47,9 @@ import java.util.List;
  * 
  * @author zhangliang
  */
-@Slf4j
 public final class LiteJobFacade implements JobFacade {
+
+    private static final Logger logger = LoggerFactory.getLogger(LiteJobFacade.class);
     
     private final ConfigurationService configService;
     
@@ -175,7 +177,7 @@ public final class LiteJobFacade implements JobFacade {
         jobEventBus.post(new JobStatusTraceEvent(taskContext.getMetaInfo().getJobName(), taskContext.getId(),
                 taskContext.getSlaveId(), Source.LITE_EXECUTOR, taskContext.getType(), taskContext.getMetaInfo().getShardingItems().toString(), state, message));
         if (!Strings.isNullOrEmpty(message)) {
-            log.trace(message);
+            logger.trace(message);
         }
     }
 }

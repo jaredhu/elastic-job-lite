@@ -17,10 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.console.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -32,9 +28,6 @@ import java.io.Serializable;
  *
  * @author zhangxinguo
  */
-@NoArgsConstructor
-@Getter
-@Setter
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class EventTraceDataSourceConfiguration implements Serializable {
@@ -58,10 +51,61 @@ public final class EventTraceDataSourceConfiguration implements Serializable {
     
     @XmlAttribute
     private boolean activated;
-    
+
+    public EventTraceDataSourceConfiguration() {
+    }
+
     public EventTraceDataSourceConfiguration(final String driver, final String url, final String username) {
         this.driver = driver;
         this.url = url;
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 }

@@ -22,7 +22,6 @@ import com.dangdang.ddframe.job.context.TaskContext;
 import com.netflix.fenzo.ConstraintEvaluator;
 import com.netflix.fenzo.TaskRequest;
 import com.netflix.fenzo.VMTaskFitnessCalculator;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,13 +32,17 @@ import java.util.Map;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class JobTaskRequest implements TaskRequest {
     
     private final TaskContext taskContext;
     
     private final CloudJobConfiguration jobConfig;
-    
+
+    public JobTaskRequest(TaskContext taskContext, CloudJobConfiguration jobConfig) {
+        this.taskContext = taskContext;
+        this.jobConfig = jobConfig;
+    }
+
     @Override
     public String getId() {
         return taskContext.getId();

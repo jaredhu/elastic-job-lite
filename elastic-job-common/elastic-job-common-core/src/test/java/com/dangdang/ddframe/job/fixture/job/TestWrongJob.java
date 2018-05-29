@@ -19,11 +19,12 @@ package com.dangdang.ddframe.job.fixture.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestWrongJob implements SimpleJob {
-    
+
+    public TestWrongJob() {
+    }
+
     @Override
     public void execute(final ShardingContext shardingContext) {
         throw new RuntimeException("WrongJobException");

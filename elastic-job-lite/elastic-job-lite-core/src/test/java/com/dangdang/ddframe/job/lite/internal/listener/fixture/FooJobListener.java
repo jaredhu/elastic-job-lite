@@ -18,16 +18,18 @@
 package com.dangdang.ddframe.job.lite.internal.listener.fixture;
 
 import com.dangdang.ddframe.job.lite.internal.listener.AbstractJobListener;
-import lombok.RequiredArgsConstructor;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent.Type;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public final class FooJobListener extends AbstractJobListener {
     
     private final List list;
-    
+
+    public FooJobListener(List list) {
+        this.list = list;
+    }
+
     @Override
     protected void dataChanged(final String path, final Type eventType, final String data) {
         list.clear();

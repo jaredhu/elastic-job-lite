@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.lifecycle.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 
 /**
@@ -27,8 +24,6 @@ import java.io.Serializable;
  *
  * @author caohao
  */
-@Getter
-@Setter
 public final class ShardingInfo implements Serializable, Comparable<ShardingInfo> {
     
     private static final long serialVersionUID = 8587397581949456718L;
@@ -42,7 +37,47 @@ public final class ShardingInfo implements Serializable, Comparable<ShardingInfo
     private ShardingStatus status;
     
     private boolean failover;
-    
+
+    public int getItem() {
+        return item;
+    }
+
+    public void setItem(int item) {
+        this.item = item;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
+    public ShardingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShardingStatus status) {
+        this.status = status;
+    }
+
+    public boolean isFailover() {
+        return failover;
+    }
+
+    public void setFailover(boolean failover) {
+        this.failover = failover;
+    }
+
     @Override
     public int compareTo(final ShardingInfo o) {
         return getItem() - o.getItem();

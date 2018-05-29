@@ -20,7 +20,8 @@ package com.dangdang.ddframe.job.event;
 import com.dangdang.ddframe.job.util.concurrent.ExecutorServiceObject;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 运行痕迹事件总线.
@@ -28,8 +29,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author zhangliang
  * @author caohao
  */
-@Slf4j
 public final class JobEventBus {
+
+    private static final Logger logger = LoggerFactory.getLogger(JobEventBus.class);
     
     private final JobEventConfiguration jobEventConfig;
     
@@ -57,7 +59,7 @@ public final class JobEventBus {
             eventBus.register(jobEventConfig.createJobEventListener());
             isRegistered = true;
         } catch (final JobEventListenerConfigurationException ex) {
-            log.error("Elastic job: create JobEventListener failure, error is: ", ex);
+            logger.error("Elastic job: create JobEventListener failure, error is: ", ex);
         }
     }
     

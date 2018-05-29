@@ -29,15 +29,9 @@ import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.api.strategy.JobInstance;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.internal.guarantee.GuaranteeService;
-import com.dangdang.ddframe.job.lite.internal.schedule.JobRegistry;
-import com.dangdang.ddframe.job.lite.internal.schedule.JobScheduleController;
-import com.dangdang.ddframe.job.lite.internal.schedule.JobShutdownHookPlugin;
-import com.dangdang.ddframe.job.lite.internal.schedule.LiteJob;
-import com.dangdang.ddframe.job.lite.internal.schedule.LiteJobFacade;
-import com.dangdang.ddframe.job.lite.internal.schedule.SchedulerFacade;
+import com.dangdang.ddframe.job.lite.internal.schedule.*;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Optional;
-import lombok.Getter;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -65,7 +59,6 @@ public class JobScheduler {
     private final CoordinatorRegistryCenter regCenter;
     
     // TODO 为测试使用,测试用例不能反复new monitor service,以后需要把MonitorService重构为单例
-    @Getter
     private final SchedulerFacade schedulerFacade;
     
     private final JobFacade jobFacade;
@@ -88,7 +81,11 @@ public class JobScheduler {
         schedulerFacade = new SchedulerFacade(regCenter, liteJobConfig.getJobName(), elasticJobListenerList);
         jobFacade = new LiteJobFacade(regCenter, liteJobConfig.getJobName(), Arrays.asList(elasticJobListeners), jobEventBus);
     }
-    
+
+    public SchedulerFacade getSchedulerFacade() {
+        return schedulerFacade;
+    }
+
     private void setGuaranteeServiceForElasticJobListeners(final CoordinatorRegistryCenter regCenter, final List<ElasticJobListener> elasticJobListeners) {
         GuaranteeService guaranteeService = new GuaranteeService(regCenter, liteJobConfig.getJobName());
         for (ElasticJobListener each : elasticJobListeners) {

@@ -26,31 +26,22 @@ import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent.State;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Collection;
+import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 运行痕迹事件数据库检索.
  *
  * @author liguangyun
  */
-@RequiredArgsConstructor
-@Slf4j
 public final class JobEventRdbSearch {
+
+    private static final Logger logger  = LoggerFactory.getLogger(JobEventRdbSearch.class);
     
     private static final String TABLE_JOB_EXECUTION_LOG = "JOB_EXECUTION_LOG";
     
@@ -63,7 +54,11 @@ public final class JobEventRdbSearch {
             Lists.newArrayList("id", "job_name", "original_task_id", "task_id", "slave_id", "source", "execution_type", "sharding_item", "state", "message", "creation_time");
     
     private final DataSource dataSource;
-    
+
+    public JobEventRdbSearch(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     /**
      * 检索作业运行执行轨迹.
      * 
@@ -101,7 +96,7 @@ public final class JobEventRdbSearch {
             }
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error("Fetch JobExecutionEvent from DB error:", ex);
+            logger.error("Fetch JobExecutionEvent from DB error:", ex);
         }
         return result;
     }
@@ -121,7 +116,7 @@ public final class JobEventRdbSearch {
             }
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error("Fetch JobStatusTraceEvent from DB error:", ex);
+            logger.error("Fetch JobStatusTraceEvent from DB error:", ex);
         }
         return result;
     }
@@ -137,7 +132,7 @@ public final class JobEventRdbSearch {
             result = resultSet.getInt(1);
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error("Fetch EventCount from DB error:", ex);
+            logger.error("Fetch EventCount from DB error:", ex);
         }
         return result;
     }
@@ -275,8 +270,6 @@ public final class JobEventRdbSearch {
      * 
      * @author liguangyun
      */
-    @RequiredArgsConstructor
-    @Getter
     public static class Condition {
         
         private static final int DEFAULT_PAGE_SIZE = 10;
@@ -294,14 +287,63 @@ public final class JobEventRdbSearch {
         private final Date endTime;
         
         private final Map<String, Object> fields;
+
+        public Condition(int perPage, int page, String sort, String order, Date startTime, Date endTime, Map<String, Object> fields) {
+            this.perPage = perPage;
+            this.page = page;
+            this.sort = sort;
+            this.order = order;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.fields = fields;
+        }
+
+        public int getPerPage() {
+            return perPage;
+        }
+
+        public int getPage() {
+            return page;
+        }
+
+        public String getSort() {
+            return sort;
+        }
+
+        public String getOrder() {
+            return order;
+        }
+
+        public Date getStartTime() {
+            return startTime;
+        }
+
+        public Date getEndTime() {
+            return endTime;
+        }
+
+        public Map<String, Object> getFields() {
+            return fields;
+        }
     }
     
-    @RequiredArgsConstructor
-    @Getter
     public static class Result<T> {
         
         private final Integer total;
         
         private final List<T> rows;
+
+        public Result(Integer total, List<T> rows) {
+            this.total = total;
+            this.rows = rows;
+        }
+
+        public Integer getTotal() {
+            return total;
+        }
+
+        public List<T> getRows() {
+            return rows;
+        }
     }
 }

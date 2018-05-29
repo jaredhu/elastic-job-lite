@@ -17,13 +17,13 @@
 
 package com.dangdang.ddframe.job.cloud.executor.local;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses(LocalTaskExecutorTest.class)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AllLocalExecutorTests {
+
+    private AllLocalExecutorTests() {
+    }
 }

@@ -20,10 +20,6 @@ package com.dangdang.ddframe.job.executor.handler;
 import com.dangdang.ddframe.job.executor.handler.impl.DefaultExecutorServiceHandler;
 import com.dangdang.ddframe.job.executor.handler.impl.DefaultJobExceptionHandler;
 import com.dangdang.ddframe.job.util.json.GsonFactory;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
@@ -34,12 +30,17 @@ import java.util.Map;
  *
  * @author zhangliang
  */
-@AllArgsConstructor
-@NoArgsConstructor
 public final class JobProperties {
     
     private EnumMap<JobPropertiesEnum, String> map = new EnumMap<>(JobPropertiesEnum.class);
-    
+
+    public JobProperties() {
+    }
+
+    public JobProperties(EnumMap<JobPropertiesEnum, String> map) {
+        this.map = map;
+    }
+
     /**
      * 设置作业属性.
      * 
@@ -80,8 +81,6 @@ public final class JobProperties {
     /**
      * 作业属性枚举.
      */
-    @RequiredArgsConstructor
-    @Getter
     public enum JobPropertiesEnum {
         
         /**
@@ -99,7 +98,25 @@ public final class JobProperties {
         private final Class<?> classType;
         
         private final String defaultValue;
-        
+
+        JobPropertiesEnum(String key, Class<?> classType, String defaultValue) {
+            this.key = key;
+            this.classType = classType;
+            this.defaultValue = defaultValue;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Class<?> getClassType() {
+            return classType;
+        }
+
+        public String getDefaultValue() {
+            return defaultValue;
+        }
+
         /**
          * 通过属性键获取枚举.
          * 

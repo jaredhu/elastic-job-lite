@@ -19,7 +19,6 @@ package com.dangdang.ddframe.job.util.config;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,11 +29,14 @@ import java.util.List;
  *
  * @author zhangliang
  */
-@Getter
 public final class ShardingItems {
     
     private static final String DELIMITER = ",";
-    
+
+    public static String getDELIMITER() {
+        return DELIMITER;
+    }
+
     /**
      * 根据分片项字符串获取分片项列表.
      *

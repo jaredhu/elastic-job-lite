@@ -19,18 +19,12 @@ package com.dangdang.ddframe.job.cloud.executor.local;
 
 import com.dangdang.ddframe.job.config.JobRootConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 本地云作业配置.
  * 
  * @author gaohongtao
  */
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Getter
 public final class LocalCloudJobConfiguration implements JobRootConfiguration {
     
     private final JobTypeConfiguration typeConfig;
@@ -40,7 +34,36 @@ public final class LocalCloudJobConfiguration implements JobRootConfiguration {
     private String beanName;
     
     private String applicationContext;
-    
+
+    public LocalCloudJobConfiguration(JobTypeConfiguration typeConfig, int shardingItem) {
+        this.typeConfig = typeConfig;
+        this.shardingItem = shardingItem;
+    }
+
+    public LocalCloudJobConfiguration(JobTypeConfiguration typeConfig, int shardingItem, String beanName, String applicationContext) {
+        this.typeConfig = typeConfig;
+        this.shardingItem = shardingItem;
+        this.beanName = beanName;
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public JobTypeConfiguration getTypeConfig() {
+        return typeConfig;
+    }
+
+    public int getShardingItem() {
+        return shardingItem;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public String getApplicationContext() {
+        return applicationContext;
+    }
+
     /**
      * 获取作业名称.
      * 

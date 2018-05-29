@@ -32,11 +32,11 @@ import com.google.common.util.concurrent.Service;
 import com.netflix.fenzo.TaskScheduler;
 import com.netflix.fenzo.VirtualMachineLease;
 import com.netflix.fenzo.functions.Action1;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.mesos.MesosSchedulerDriver;
 import org.apache.mesos.Protos;
 import org.apache.mesos.SchedulerDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.dangdang.ddframe.job.cloud.scheduler.env.MesosConfiguration.FRAMEWORK_FAILOVER_TIMEOUT_SECONDS;
 import static com.dangdang.ddframe.job.cloud.scheduler.env.MesosConfiguration.FRAMEWORK_NAME;
@@ -47,9 +47,9 @@ import static com.dangdang.ddframe.job.cloud.scheduler.env.MesosConfiguration.FR
  * @author zhangliang
  * @author caohao
  */
-@Slf4j
-@AllArgsConstructor
 public final class SchedulerService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppConstraintEvaluator.class);
     
     private static final String WEB_UI_PROTOCOL = "http://";
     
@@ -70,7 +70,19 @@ public final class SchedulerService {
     private final RestfulService restfulService;
     
     private final ReconcileService reconcileService;
-    
+
+    public SchedulerService(BootstrapEnvironment env, FacadeService facadeService, SchedulerDriver schedulerDriver, ProducerManager producerManager, StatisticManager statisticManager, CloudJobConfigurationListener cloudJobConfigurationListener, Service taskLaunchScheduledService, RestfulService restfulService, ReconcileService reconcileService) {
+        this.env = env;
+        this.facadeService = facadeService;
+        this.schedulerDriver = schedulerDriver;
+        this.producerManager = producerManager;
+        this.statisticManager = statisticManager;
+        this.cloudJobConfigurationListener = cloudJobConfigurationListener;
+        this.taskLaunchScheduledService = taskLaunchScheduledService;
+        this.restfulService = restfulService;
+        this.reconcileService = reconcileService;
+    }
+
     public SchedulerService(final CoordinatorRegistryCenter regCenter) {
         env = BootstrapEnvironment.getInstance();
         facadeService = new FacadeService(regCenter);
@@ -112,7 +124,7 @@ public final class SchedulerService {
                     
                     @Override
                     public void call(final VirtualMachineLease lease) {
-                        log.warn("Declining offer on '{}'", lease.hostname());
+                        logger.warn("Declining offer on '{}'", lease.hostname());
                         schedulerDriver.declineOffer(lease.getOffer().getId());
                     }
                 }).build();

@@ -25,8 +25,6 @@ import com.google.common.base.Optional;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,10 +33,12 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RegistryCenterFactory {
-    
-    private static final ConcurrentHashMap<HashCode, CoordinatorRegistryCenter> REG_CENTER_REGISTRY = new ConcurrentHashMap<>(); 
+
+    private RegistryCenterFactory() {
+    }
+
+    private static final ConcurrentHashMap<HashCode, CoordinatorRegistryCenter> REG_CENTER_REGISTRY = new ConcurrentHashMap<>();
     
     /**
      * 创建注册中心.

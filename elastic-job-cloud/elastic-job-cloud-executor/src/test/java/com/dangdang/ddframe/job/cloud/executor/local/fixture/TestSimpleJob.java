@@ -20,21 +20,28 @@ package com.dangdang.ddframe.job.cloud.executor.local.fixture;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.google.common.base.Strings;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public final class TestSimpleJob implements SimpleJob {
     
-    @Getter
-    @Setter
     private static ShardingContext shardingContext;
     
-    @Getter
     private static Set<String> shardingParameters = new ConcurrentSkipListSet<>();
-    
+
+    public static ShardingContext getShardingContext() {
+        return shardingContext;
+    }
+
+    public static void setShardingContext(ShardingContext shardingContext) {
+        TestSimpleJob.shardingContext = shardingContext;
+    }
+
+    public static Set<String> getShardingParameters() {
+        return shardingParameters;
+    }
+
     @Override
     public void execute(final ShardingContext shardingContext) {
         TestSimpleJob.shardingContext = shardingContext;

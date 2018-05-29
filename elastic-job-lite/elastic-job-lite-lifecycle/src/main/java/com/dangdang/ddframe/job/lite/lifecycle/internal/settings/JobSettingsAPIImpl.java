@@ -29,7 +29,6 @@ import com.dangdang.ddframe.job.lite.lifecycle.domain.JobSettings;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 作业配置的实现类.
@@ -37,11 +36,14 @@ import lombok.RequiredArgsConstructor;
  * @author zhangliang
  * @author caohao
  */
-@RequiredArgsConstructor
 public final class JobSettingsAPIImpl implements JobSettingsAPI {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public JobSettingsAPIImpl(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     @Override
     public JobSettings getJobSettings(final String jobName) {
         JobSettings result = new JobSettings();

@@ -17,16 +17,11 @@
 
 package com.dangdang.ddframe.job.statistics.type.job;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 作业类型统计数据.
  *
  * @author liguangyun
  */
-@Getter
-@AllArgsConstructor
 public final class JobTypeStatistics {
     
     private int scriptJobCount;
@@ -34,4 +29,22 @@ public final class JobTypeStatistics {
     private int simpleJobCount;
     
     private int dataflowJobCount;
+
+    public JobTypeStatistics(int scriptJobCount, int simpleJobCount, int dataflowJobCount) {
+        this.scriptJobCount = scriptJobCount;
+        this.simpleJobCount = simpleJobCount;
+        this.dataflowJobCount = dataflowJobCount;
+    }
+
+    public int getScriptJobCount() {
+        return scriptJobCount;
+    }
+
+    public int getSimpleJobCount() {
+        return simpleJobCount;
+    }
+
+    public int getDataflowJobCount() {
+        return dataflowJobCount;
+    }
 }

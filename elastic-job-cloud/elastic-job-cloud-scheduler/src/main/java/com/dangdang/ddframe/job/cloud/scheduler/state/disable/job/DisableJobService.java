@@ -19,15 +19,17 @@ package com.dangdang.ddframe.job.cloud.scheduler.state.disable.job;
 
 import com.dangdang.ddframe.job.cloud.scheduler.env.BootstrapEnvironment;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 禁用作业队列服务.
  *
  * @author caohao
  */
-@Slf4j
 public class DisableJobService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DisableJobService.class);
     
     private final BootstrapEnvironment env = BootstrapEnvironment.getInstance();
     
@@ -44,7 +46,7 @@ public class DisableJobService {
      */
     public void add(final String jobName) {
         if (regCenter.getNumChildren(DisableJobNode.ROOT) > env.getFrameworkConfiguration().getJobStateQueueSize()) {
-            log.warn("Cannot add disable job, caused by read state queue size is larger than {}.", env.getFrameworkConfiguration().getJobStateQueueSize());
+            logger.warn("Cannot add disable job, caused by read state queue size is larger than {}.", env.getFrameworkConfiguration().getJobStateQueueSize());
             return;
         }
         String disableJobNodePath = DisableJobNode.getDisableJobNodePath(jobName);

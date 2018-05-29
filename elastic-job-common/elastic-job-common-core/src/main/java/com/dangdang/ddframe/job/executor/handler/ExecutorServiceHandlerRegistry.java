@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.executor.handler;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -29,9 +26,11 @@ import java.util.concurrent.ExecutorService;
  * 
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ExecutorServiceHandlerRegistry {
-    
+
+    private ExecutorServiceHandlerRegistry() {
+    }
+
     private static final Map<String, ExecutorService> REGISTRY = new HashMap<>();
     
     /**

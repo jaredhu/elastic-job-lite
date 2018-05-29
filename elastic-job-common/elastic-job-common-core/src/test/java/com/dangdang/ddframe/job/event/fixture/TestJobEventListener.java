@@ -20,17 +20,21 @@ package com.dangdang.ddframe.job.event.fixture;
 import com.dangdang.ddframe.job.event.JobEventListener;
 import com.dangdang.ddframe.job.event.type.JobExecutionEvent;
 import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestJobEventListener extends TestJobEventIdentity implements JobEventListener {
     
-    @Getter
     private static volatile boolean executionEventCalled;
     
     private final JobEventCaller jobEventCaller;
-    
+
+    public TestJobEventListener(JobEventCaller jobEventCaller) {
+        this.jobEventCaller = jobEventCaller;
+    }
+
+    public static boolean isExecutionEventCalled() {
+        return executionEventCalled;
+    }
+
     @Override
     public void listen(final JobExecutionEvent jobExecutionEvent) {
         jobEventCaller.call();

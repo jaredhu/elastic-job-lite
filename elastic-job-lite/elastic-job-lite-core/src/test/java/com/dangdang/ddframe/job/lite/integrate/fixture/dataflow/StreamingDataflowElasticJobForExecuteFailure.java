@@ -19,16 +19,18 @@ package com.dangdang.ddframe.job.lite.integrate.fixture.dataflow;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class StreamingDataflowElasticJobForExecuteFailure implements DataflowJob<String> {
     
-    @Getter
     private static volatile boolean completed;
-    
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
     @Override
     public List<String> fetchData(final ShardingContext shardingContext) {
         if (completed) {

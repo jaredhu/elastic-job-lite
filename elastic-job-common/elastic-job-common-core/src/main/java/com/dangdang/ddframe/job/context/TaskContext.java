@@ -22,14 +22,10 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -38,9 +34,6 @@ import java.util.UUID;
  * @author zhangliang
  * @author caohao
  */
-@Getter
-@EqualsAndHashCode(of = "id")
-@ToString(of = "id")
 public final class TaskContext {
     
     private static final String DELIMITER = "@-@";
@@ -55,7 +48,6 @@ public final class TaskContext {
     
     private String slaveId;
     
-    @Setter
     private boolean idle;
     
     public TaskContext(final String jobName, final List<Integer> shardingItem, final ExecutionType type) {
@@ -75,7 +67,31 @@ public final class TaskContext {
         this.type = type;
         this.slaveId = slaveId;
     }
-    
+
+    public String getId() {
+        return id;
+    }
+
+    public MetaInfo getMetaInfo() {
+        return metaInfo;
+    }
+
+    public ExecutionType getType() {
+        return type;
+    }
+
+    public String getSlaveId() {
+        return slaveId;
+    }
+
+    public boolean isIdle() {
+        return idle;
+    }
+
+    public void setIdle(boolean idle) {
+        this.idle = idle;
+    }
+
     /**
      * 根据任务主键获取任务上下文.
      *
@@ -126,19 +142,54 @@ public final class TaskContext {
     public String getExecutorId(final String appName) {
         return Joiner.on(DELIMITER).join(appName, slaveId);
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TaskContext that = (TaskContext) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "TaskContext{" +
+                "id='" + id + '\'' +
+                '}';
+    }
+
     /**
      * 任务元信息.
      */
-    @RequiredArgsConstructor
-    @Getter
-    @EqualsAndHashCode
     public static class MetaInfo {
         
         private final String jobName;
         
         private final List<Integer> shardingItems;
-        
+
+        public MetaInfo(String jobName, List<Integer> shardingItems) {
+            this.jobName = jobName;
+            this.shardingItems = shardingItems;
+        }
+
+        public String getJobName() {
+            return jobName;
+        }
+
+        public List<Integer> getShardingItems() {
+            return shardingItems;
+        }
+
         /**
          * 根据任务元信息字符串获取元信息对象.
          *
@@ -157,7 +208,26 @@ public final class TaskContext {
                         }
                     }));
         }
-        
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            MetaInfo metaInfo = (MetaInfo) o;
+            return Objects.equals(jobName, metaInfo.jobName) &&
+                    Objects.equals(shardingItems, metaInfo.shardingItems);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(jobName, shardingItems);
+        }
+
         @Override
         public String toString() {
             return Joiner.on(DELIMITER).join(jobName, Joiner.on(",").join(shardingItems));

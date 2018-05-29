@@ -20,12 +20,13 @@ package com.dangdang.ddframe.job.cloud.scheduler.config.job;
 import com.dangdang.ddframe.job.cloud.scheduler.producer.ProducerManager;
 import com.dangdang.ddframe.job.cloud.scheduler.state.ready.ReadyService;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent.Type;
 import org.apache.curator.framework.recipes.cache.TreeCacheListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.concurrent.Executors;
@@ -36,8 +37,9 @@ import java.util.concurrent.Executors;
  * @author zhangliang
  * @author caohao
  */
-@Slf4j
 public final class CloudJobConfigurationListener implements TreeCacheListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(CloudJobConfigurationListener.class);
     
     private final CoordinatorRegistryCenter regCenter;
     
@@ -86,7 +88,7 @@ public final class CloudJobConfigurationListener implements TreeCacheListener {
             return CloudJobConfigurationGsonFactory.fromJson(new String(event.getData().getData()));
             // CHECKSTYLE:OFF
         } catch (final Exception ex) {
-            log.warn("Wrong Cloud Job Configuration with:", ex.getMessage());
+            logger.warn("Wrong Cloud Job Configuration with:", ex.getMessage());
             // CHECKSTYLE:ON
             return null;
         }

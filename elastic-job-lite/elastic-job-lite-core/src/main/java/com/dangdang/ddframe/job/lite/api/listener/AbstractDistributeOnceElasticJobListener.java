@@ -21,7 +21,6 @@ import com.dangdang.ddframe.job.exception.JobSystemException;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.internal.guarantee.GuaranteeService;
 import com.dangdang.ddframe.job.util.env.TimeService;
-import lombok.Setter;
 
 /**
  * 在分布式作业中只执行一次的监听器.
@@ -38,7 +37,6 @@ public abstract class AbstractDistributeOnceElasticJobListener implements Elasti
     
     private final Object completedWait = new Object();
     
-    @Setter
     private GuaranteeService guaranteeService;
     
     private TimeService timeService = new TimeService();
@@ -55,7 +53,11 @@ public abstract class AbstractDistributeOnceElasticJobListener implements Elasti
             this.completedTimeoutMilliseconds = completedTimeoutMilliseconds;
         }
     }
-    
+
+    public void setGuaranteeService(GuaranteeService guaranteeService) {
+        this.guaranteeService = guaranteeService;
+    }
+
     @Override
     public final void beforeJobExecuted(final ShardingContexts shardingContexts) {
         guaranteeService.registerStart(shardingContexts.getShardingItemParameters().keySet());

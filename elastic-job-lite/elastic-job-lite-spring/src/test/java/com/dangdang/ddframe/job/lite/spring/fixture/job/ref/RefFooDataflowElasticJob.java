@@ -20,21 +20,28 @@ package com.dangdang.ddframe.job.lite.spring.fixture.job.ref;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.lite.spring.fixture.service.FooService;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class RefFooDataflowElasticJob implements DataflowJob<String> {
     
-    @Getter
     private static volatile boolean completed;
     
-    @Getter
-    @Setter
     private FooService fooService;
-    
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
+    public FooService getFooService() {
+        return fooService;
+    }
+
+    public void setFooService(FooService fooService) {
+        this.fooService = fooService;
+    }
+
     @Override
     public List<String> fetchData(final ShardingContext shardingContext) {
         if (completed) {

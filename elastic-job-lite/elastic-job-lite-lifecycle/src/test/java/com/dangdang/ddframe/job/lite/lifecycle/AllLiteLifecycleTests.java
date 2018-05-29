@@ -26,8 +26,6 @@ import com.dangdang.ddframe.job.lite.lifecycle.internal.settings.JobSettingsAPII
 import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.JobStatisticsAPIImplTest;
 import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.ServerStatisticsAPIImplTest;
 import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.ShardingStatisticsAPIImplTest;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -44,6 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
         ServerStatisticsAPIImplTest.class,
         ShardingStatisticsAPIImplTest.class
     })
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AllLiteLifecycleTests {
+
+    private AllLiteLifecycleTests() {
+    }
 }

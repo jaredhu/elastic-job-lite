@@ -19,8 +19,6 @@ package com.dangdang.ddframe.job.cloud.scheduler.context;
 
 import com.dangdang.ddframe.job.cloud.scheduler.config.job.CloudJobConfiguration;
 import com.dangdang.ddframe.job.context.ExecutionType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,6 @@ import java.util.List;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class JobContext {
     
     private final CloudJobConfiguration jobConfig;
@@ -39,7 +35,25 @@ public final class JobContext {
     private final List<Integer> assignedShardingItems;
     
     private final ExecutionType type;
-    
+
+    public JobContext(CloudJobConfiguration jobConfig, List<Integer> assignedShardingItems, ExecutionType type) {
+        this.jobConfig = jobConfig;
+        this.assignedShardingItems = assignedShardingItems;
+        this.type = type;
+    }
+
+    public CloudJobConfiguration getJobConfig() {
+        return jobConfig;
+    }
+
+    public List<Integer> getAssignedShardingItems() {
+        return assignedShardingItems;
+    }
+
+    public ExecutionType getType() {
+        return type;
+    }
+
     /**
      * 通过作业配置创建作业运行上下文.
      * 

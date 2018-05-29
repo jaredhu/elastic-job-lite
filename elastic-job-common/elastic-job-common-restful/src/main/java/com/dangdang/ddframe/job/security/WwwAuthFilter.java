@@ -18,15 +18,11 @@
 package com.dangdang.ddframe.job.security;
 
 import com.google.common.base.Joiner;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -39,8 +35,9 @@ import java.util.Properties;
  * 
  * @author zhangliang 
  */
-@Slf4j
 public final class WwwAuthFilter implements Filter {
+
+    private static final Logger logger = LoggerFactory.getLogger(WwwAuthFilter.class);
     
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     
@@ -76,7 +73,7 @@ public final class WwwAuthFilter implements Filter {
             try {
                 props.load(new FileInputStream(configFilePath));
             } catch (final IOException ex) {
-                log.warn("Cannot found auth config file, use default auth config.");
+                logger.warn("Cannot found auth config file, use default auth config.");
             }
         }
         rootUsername = props.getProperty("root.username", ROOT_DEFAULT_USERNAME);

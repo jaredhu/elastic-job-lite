@@ -18,8 +18,6 @@
 package com.dangdang.ddframe.job.util.digest;
 
 import com.dangdang.ddframe.job.exception.JobSystemException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -30,11 +28,13 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Encryption {
     
     private static final String MD5 = "MD5";
-    
+
+    private Encryption() {
+    }
+
     /**
      * 采用MD5算法加密字符串.
      * 

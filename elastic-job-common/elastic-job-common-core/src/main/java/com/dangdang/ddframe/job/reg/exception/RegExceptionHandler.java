@@ -17,22 +17,24 @@
 
 package com.dangdang.ddframe.job.reg.exception;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.KeeperException.ConnectionLossException;
 import org.apache.zookeeper.KeeperException.NoNodeException;
 import org.apache.zookeeper.KeeperException.NodeExistsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 注册中心异常处理类.
  * 
  * @author zhangliang
  */
-@Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RegExceptionHandler {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(RegExceptionHandler.class);
+
+    private RegExceptionHandler() {
+    }
+
     /**
      * 处理异常.
      * 
@@ -45,7 +47,7 @@ public final class RegExceptionHandler {
             return;
         }
         if (isIgnoredException(cause) || null != cause.getCause() && isIgnoredException(cause.getCause())) {
-            log.debug("Elastic job: ignored exception for: {}", cause.getMessage());
+            logger.debug("Elastic job: ignored exception for: {}", cause.getMessage());
         } else if (cause instanceof InterruptedException) {
             Thread.currentThread().interrupt();
         } else {

@@ -17,8 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.internal.storage;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * 作业节点路径类.
  * 
@@ -28,7 +26,6 @@ import lombok.RequiredArgsConstructor;
  * 
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class JobNodePath {
     
     private static final String LEADER_HOST_NODE = "leader/election/instance";
@@ -42,7 +39,11 @@ public final class JobNodePath {
     private static final String SHARDING_NODE = "sharding";
     
     private final String jobName;
-    
+
+    public JobNodePath(String jobName) {
+        this.jobName = jobName;
+    }
+
     /**
      * 获取节点全路径.
      * 

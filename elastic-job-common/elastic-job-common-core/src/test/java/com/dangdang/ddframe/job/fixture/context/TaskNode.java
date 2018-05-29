@@ -19,9 +19,8 @@ package com.dangdang.ddframe.job.fixture.context;
 
 import com.dangdang.ddframe.job.context.ExecutionType;
 import com.google.common.base.Joiner;
-import lombok.Builder;
 
-@Builder
+//@Builder
 public final class TaskNode {
     
     private String jobName;
@@ -40,5 +39,71 @@ public final class TaskNode {
     
     public String getTaskNodeValue() {
         return Joiner.on("@-@").join(getTaskNodePath(), null == type ? ExecutionType.READY : type, null == slaveId ? "slave-S0" : slaveId, null == uuid ? "0" : uuid);
+    }
+
+    public TaskNode(String jobName, int shardingItem, ExecutionType type, String slaveId, String uuid) {
+        this.jobName = jobName;
+        this.shardingItem = shardingItem;
+        this.type = type;
+        this.slaveId = slaveId;
+        this.uuid = uuid;
+    }
+
+    public static <T> TaskNodeBuilder<T> builder() {
+        return new TaskNodeBuilder<T>();
+    }
+
+    public static class TaskNodeBuilder<T> {
+        private String jobName;
+
+        private int shardingItem;
+
+        private ExecutionType type;
+
+        private String slaveId;
+
+        private String uuid;
+
+        private TaskNodeBuilder() {}
+
+        public TaskNodeBuilder jobName(String jobName) {
+            this.jobName = jobName;
+            return this;
+        }
+
+        public TaskNodeBuilder shardingItem(int shardingItem) {
+            this.shardingItem = shardingItem;
+            return this;
+        }
+
+        public TaskNodeBuilder type(ExecutionType type) {
+            this.type = type;
+            return this;
+        }
+
+        public TaskNodeBuilder slaveId(String slaveId) {
+            this.slaveId = slaveId;
+            return this;
+        }
+
+        public TaskNodeBuilder uuid(String uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        @Override
+        public String toString() {
+            return "TaskNodeBuilder{" +
+                    "jobName='" + jobName + '\'' +
+                    ", shardingItem=" + shardingItem +
+                    ", type=" + type +
+                    ", slaveId='" + slaveId + '\'' +
+                    ", uuid='" + uuid + '\'' +
+                    '}';
+        }
+
+        public TaskNode build() {
+            return new TaskNode(jobName, shardingItem, type, slaveId, uuid);
+        }
     }
 }

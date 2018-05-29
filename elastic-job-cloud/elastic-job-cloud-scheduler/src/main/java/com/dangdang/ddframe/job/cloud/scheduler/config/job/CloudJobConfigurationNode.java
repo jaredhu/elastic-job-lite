@@ -17,17 +17,16 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.config.job;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * 作业配置节点路径.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CloudJobConfigurationNode {
-    
+
+    private CloudJobConfigurationNode() {
+    }
+
     public static final String ROOT =  "/config/job";
     
     private static final String JOB_CONFIG =  ROOT + "/%s";

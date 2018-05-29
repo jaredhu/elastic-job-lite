@@ -18,8 +18,6 @@
 package com.dangdang.ddframe.job.lite.fixture.util;
 
 import com.google.common.collect.Sets;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,9 +25,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScriptElasticJobUtil {
-    
+
+    private ScriptElasticJobUtil() {
+    }
+
     public static String buildScriptCommandLine() throws IOException {
         if (System.getProperties().getProperty("os.name").contains("Windows")) {
             return Paths.get(ScriptElasticJobUtil.class.getResource("/script/test.bat").getPath().substring(1)).toString();

@@ -32,11 +32,12 @@ import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.mesos.Protos;
 import org.apache.mesos.Protos.ExecutorID;
 import org.apache.mesos.Protos.SlaveID;
 import org.apache.mesos.SchedulerDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 发布任务作业调度管理器.
@@ -44,9 +45,10 @@ import org.apache.mesos.SchedulerDriver;
  * @author caohao
  * @author zhangliang
  */
-@Slf4j
 public final class ProducerManager {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(ProducerManager.class);
+
     private final CloudAppConfigurationService appConfigService;
     
     private final CloudJobConfigurationService configService;
@@ -78,7 +80,7 @@ public final class ProducerManager {
      * 启动作业调度器.
      */
     public void startup() {
-        log.info("Start producer manager");
+        logger.info("Start producer manager");
         transientProducerScheduler.start();
         for (CloudJobConfiguration each : configService.loadAll()) {
             schedule(each);
@@ -195,7 +197,7 @@ public final class ProducerManager {
      * 关闭作业调度器.
      */
     public void shutdown() {
-        log.info("Stop producer manager");
+        logger.info("Stop producer manager");
         transientProducerScheduler.shutdown();
     }
 }

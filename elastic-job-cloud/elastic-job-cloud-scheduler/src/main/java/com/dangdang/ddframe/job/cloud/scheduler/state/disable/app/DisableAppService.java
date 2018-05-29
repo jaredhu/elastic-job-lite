@@ -19,15 +19,17 @@ package com.dangdang.ddframe.job.cloud.scheduler.state.disable.app;
 
 import com.dangdang.ddframe.job.cloud.scheduler.env.BootstrapEnvironment;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 禁用应用队列服务.
  *
  * @author caohao
  */
-@Slf4j
 public class DisableAppService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DisableAppService.class);
     
     private final BootstrapEnvironment env = BootstrapEnvironment.getInstance();
     
@@ -44,7 +46,7 @@ public class DisableAppService {
      */
     public void add(final String appName) {
         if (regCenter.getNumChildren(DisableAppNode.ROOT) > env.getFrameworkConfiguration().getJobStateQueueSize()) {
-            log.warn("Cannot add disable app, caused by read state queue size is larger than {}.", env.getFrameworkConfiguration().getJobStateQueueSize());
+            logger.warn("Cannot add disable app, caused by read state queue size is larger than {}.", env.getFrameworkConfiguration().getJobStateQueueSize());
             return;
         }
         String disableAppNodePath = DisableAppNode.getDisableAppNodePath(appName);

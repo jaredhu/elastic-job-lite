@@ -18,22 +18,13 @@
 package com.dangdang.ddframe.job.lite.internal.schedule;
 
 import com.dangdang.ddframe.job.exception.JobSystemException;
-import lombok.RequiredArgsConstructor;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
+import org.quartz.*;
 
 /**
  * 作业调度控制器.
  * 
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class JobScheduleController {
     
     private final Scheduler scheduler;
@@ -41,7 +32,13 @@ public final class JobScheduleController {
     private final JobDetail jobDetail;
     
     private final String triggerIdentity;
-    
+
+    public JobScheduleController(Scheduler scheduler, JobDetail jobDetail, String triggerIdentity) {
+        this.scheduler = scheduler;
+        this.jobDetail = jobDetail;
+        this.triggerIdentity = triggerIdentity;
+    }
+
     /**
      * 调度作业.
      * 

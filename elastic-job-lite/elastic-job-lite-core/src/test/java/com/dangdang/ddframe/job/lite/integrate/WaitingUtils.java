@@ -17,16 +17,15 @@
 
 package com.dangdang.ddframe.job.lite.integrate;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class WaitingUtils {
     
     public static void waitingShortTime() {
         sleep(300L);
     }
-    
+
+    private WaitingUtils() {
+    }
+
     private static void sleep(final long millis) {
         try {
             Thread.sleep(millis);

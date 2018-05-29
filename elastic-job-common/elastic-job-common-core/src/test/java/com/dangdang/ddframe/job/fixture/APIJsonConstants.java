@@ -18,10 +18,7 @@
 package com.dangdang.ddframe.job.fixture;
 
 import com.dangdang.ddframe.job.executor.handler.impl.DefaultExecutorServiceHandler;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class APIJsonConstants {
     
     private static final String JOB_PROPS_JSON = "{\"job_exception_handler\":\"%s\",\"executor_service_handler\":\"" + DefaultExecutorServiceHandler.class.getCanonicalName() + "\"}";
@@ -39,7 +36,11 @@ public final class APIJsonConstants {
     private static final String SCRIPT_JOB_JSON = "{\"jobName\":\"test_job\",\"jobClass\":\"com.dangdang.ddframe.job.api.script.ScriptJob\",\"jobType\":\"SCRIPT\",\"cron\":\"0/1 * * * * ?\","
             + "\"shardingTotalCount\":3,\"shardingItemParameters\":\"\",\"jobParameter\":\"\",\"failover\":false,\"misfire\":true,\"description\":\"\","
             + "\"jobProperties\":%s,\"scriptCommandLine\":\"test.sh\"}";
-    
+
+
+    private APIJsonConstants() {
+    }
+
     public static String getJobPropertiesJson(final String jobExceptionHandler) {
         return String.format(JOB_PROPS_JSON, jobExceptionHandler);
     }

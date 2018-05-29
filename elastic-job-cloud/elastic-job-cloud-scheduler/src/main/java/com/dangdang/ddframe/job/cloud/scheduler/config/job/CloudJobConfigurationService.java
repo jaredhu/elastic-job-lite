@@ -19,7 +19,6 @@ package com.dangdang.ddframe.job.cloud.scheduler.config.job;
 
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Optional;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,11 +30,14 @@ import java.util.List;
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
 public final class CloudJobConfigurationService {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public CloudJobConfigurationService(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     /**
      * 添加云作业配置.
      * 

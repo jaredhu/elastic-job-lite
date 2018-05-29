@@ -19,15 +19,17 @@ package com.dangdang.ddframe.job.fixture.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public final class TestDataflowJob implements DataflowJob<Object> {
     
     private final JobCaller jobCaller;
-    
+
+    public TestDataflowJob(JobCaller jobCaller) {
+        this.jobCaller = jobCaller;
+    }
+
     @Override
     public List<Object> fetchData(final ShardingContext shardingContext) {
         return jobCaller.fetchData(shardingContext.getShardingItem());

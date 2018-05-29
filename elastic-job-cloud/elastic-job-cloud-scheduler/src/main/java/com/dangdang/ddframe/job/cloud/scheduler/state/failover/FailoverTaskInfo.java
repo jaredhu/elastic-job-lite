@@ -19,19 +19,27 @@ package com.dangdang.ddframe.job.cloud.scheduler.state.failover;
 
 import com.dangdang.ddframe.job.context.TaskContext.MetaInfo;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * 待失效转移任务节点信息.
  *
  * @author liguangyun
  */
-@RequiredArgsConstructor
-@Getter
 public final class FailoverTaskInfo {
     
     private final MetaInfo taskInfo;
     
     private final String originalTaskId;
+
+    public FailoverTaskInfo(MetaInfo taskInfo, String originalTaskId) {
+        this.taskInfo = taskInfo;
+        this.originalTaskId = originalTaskId;
+    }
+
+    public MetaInfo getTaskInfo() {
+        return taskInfo;
+    }
+
+    public String getOriginalTaskId() {
+        return originalTaskId;
+    }
 }

@@ -24,15 +24,18 @@ import com.dangdang.ddframe.job.config.script.ScriptJobConfiguration;
 import com.dangdang.ddframe.job.executor.handler.JobExceptionHandler;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.dangdang.ddframe.job.fixture.ShardingContextsBuilder;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestScriptJobConfiguration implements JobRootConfiguration {
     
     private final String scriptCommandLine;
     
     private final Class<? extends JobExceptionHandler> jobExceptionHandlerClass;
-    
+
+    public TestScriptJobConfiguration(String scriptCommandLine, Class<? extends JobExceptionHandler> jobExceptionHandlerClass) {
+        this.scriptCommandLine = scriptCommandLine;
+        this.jobExceptionHandlerClass = jobExceptionHandlerClass;
+    }
+
     @Override
     public JobTypeConfiguration getTypeConfig() {
         return new ScriptJobConfiguration(JobCoreConfiguration.newBuilder(ShardingContextsBuilder.JOB_NAME, "0/1 * * * * ?", 3)

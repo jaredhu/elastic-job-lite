@@ -17,19 +17,12 @@
 
 package com.dangdang.ddframe.job.reg.zookeeper;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 /**
  * 基于Zookeeper的注册中心配置.
  * 
  * @author zhangliang
  * @author caohao
  */
-@Getter
-@Setter
-@RequiredArgsConstructor
 public final class ZookeeperConfiguration {
     
     /**
@@ -79,4 +72,65 @@ public final class ZookeeperConfiguration {
      * 缺省为不需要权限验证.
      */
     private String digest;
+
+    public ZookeeperConfiguration(String serverLists, String namespace) {
+        this.serverLists = serverLists;
+        this.namespace = namespace;
+    }
+
+    public String getServerLists() {
+        return serverLists;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public int getBaseSleepTimeMilliseconds() {
+        return baseSleepTimeMilliseconds;
+    }
+
+    public void setBaseSleepTimeMilliseconds(int baseSleepTimeMilliseconds) {
+        this.baseSleepTimeMilliseconds = baseSleepTimeMilliseconds;
+    }
+
+    public int getMaxSleepTimeMilliseconds() {
+        return maxSleepTimeMilliseconds;
+    }
+
+    public void setMaxSleepTimeMilliseconds(int maxSleepTimeMilliseconds) {
+        this.maxSleepTimeMilliseconds = maxSleepTimeMilliseconds;
+    }
+
+    public int getMaxRetries() {
+        return maxRetries;
+    }
+
+    public void setMaxRetries(int maxRetries) {
+        this.maxRetries = maxRetries;
+    }
+
+    public int getSessionTimeoutMilliseconds() {
+        return sessionTimeoutMilliseconds;
+    }
+
+    public void setSessionTimeoutMilliseconds(int sessionTimeoutMilliseconds) {
+        this.sessionTimeoutMilliseconds = sessionTimeoutMilliseconds;
+    }
+
+    public int getConnectionTimeoutMilliseconds() {
+        return connectionTimeoutMilliseconds;
+    }
+
+    public void setConnectionTimeoutMilliseconds(int connectionTimeoutMilliseconds) {
+        this.connectionTimeoutMilliseconds = connectionTimeoutMilliseconds;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
+    }
 }

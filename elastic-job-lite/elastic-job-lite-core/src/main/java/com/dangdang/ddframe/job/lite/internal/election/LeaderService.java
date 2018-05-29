@@ -23,16 +23,17 @@ import com.dangdang.ddframe.job.lite.internal.storage.JobNodeStorage;
 import com.dangdang.ddframe.job.lite.internal.storage.LeaderExecutionCallback;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.util.concurrent.BlockUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 主节点服务.
  * 
  * @author zhangliang
  */
-@Slf4j
 public final class LeaderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LeaderService.class);
     
     private final String jobName;
     
@@ -50,9 +51,9 @@ public final class LeaderService {
      * 选举主节点.
      */
     public void electLeader() {
-        log.debug("Elect a new leader now.");
+        logger.debug("Elect a new leader now.");
         jobNodeStorage.executeInLeader(LeaderNode.LATCH, new LeaderElectionExecutionCallback());
-        log.debug("Leader election completed.");
+        logger.debug("Leader election completed.");
     }
     
     /**
@@ -66,7 +67,7 @@ public final class LeaderService {
      */
     public boolean isLeaderUntilBlock() {
         while (!hasLeader() && serverService.hasAvailableServers()) {
-            log.info("Leader is electing, waiting for {} ms", 100);
+            logger.info("Leader is electing, waiting for {} ms", 100);
             BlockUtils.waitingShortTime();
             if (!JobRegistry.getInstance().isShutdown(jobName) && serverService.isAvailableServer(JobRegistry.getInstance().getJobInstance(jobName).getIp())) {
                 electLeader();
@@ -100,9 +101,11 @@ public final class LeaderService {
         jobNodeStorage.removeJobNodeIfExisted(LeaderNode.INSTANCE);
     }
     
-    @RequiredArgsConstructor
     class LeaderElectionExecutionCallback implements LeaderExecutionCallback {
-        
+
+        public LeaderElectionExecutionCallback() {
+        }
+
         @Override
         public void execute() {
             if (!hasLeader()) {

@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.console.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,8 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author zhangxinguo
  */
-@Getter
-@Setter
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class GlobalConfiguration {
@@ -38,4 +33,20 @@ public final class GlobalConfiguration {
     private RegistryCenterConfigurations registryCenterConfigurations;
     
     private EventTraceDataSourceConfigurations eventTraceDataSourceConfigurations;
+
+    public RegistryCenterConfigurations getRegistryCenterConfigurations() {
+        return registryCenterConfigurations;
+    }
+
+    public void setRegistryCenterConfigurations(RegistryCenterConfigurations registryCenterConfigurations) {
+        this.registryCenterConfigurations = registryCenterConfigurations;
+    }
+
+    public EventTraceDataSourceConfigurations getEventTraceDataSourceConfigurations() {
+        return eventTraceDataSourceConfigurations;
+    }
+
+    public void setEventTraceDataSourceConfigurations(EventTraceDataSourceConfigurations eventTraceDataSourceConfigurations) {
+        this.eventTraceDataSourceConfigurations = eventTraceDataSourceConfigurations;
+    }
 }

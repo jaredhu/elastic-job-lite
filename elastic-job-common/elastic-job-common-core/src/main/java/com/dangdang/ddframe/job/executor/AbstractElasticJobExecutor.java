@@ -28,9 +28,8 @@ import com.dangdang.ddframe.job.executor.handler.ExecutorServiceHandler;
 import com.dangdang.ddframe.job.executor.handler.ExecutorServiceHandlerRegistry;
 import com.dangdang.ddframe.job.executor.handler.JobExceptionHandler;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Map;
@@ -43,13 +42,12 @@ import java.util.concurrent.ExecutorService;
  *
  * @author zhangliang
  */
-@Slf4j
 public abstract class AbstractElasticJobExecutor {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractElasticJobExecutor.class);
     
-    @Getter(AccessLevel.PROTECTED)
     private final JobFacade jobFacade;
     
-    @Getter(AccessLevel.PROTECTED)
     private final JobRootConfiguration jobRootConfig;
     
     private final String jobName;
@@ -68,7 +66,15 @@ public abstract class AbstractElasticJobExecutor {
         jobExceptionHandler = (JobExceptionHandler) getHandler(JobProperties.JobPropertiesEnum.JOB_EXCEPTION_HANDLER);
         itemErrorMessages = new ConcurrentHashMap<>(jobRootConfig.getTypeConfig().getCoreConfig().getShardingTotalCount(), 1);
     }
-    
+
+    protected JobFacade getJobFacade() {
+        return jobFacade;
+    }
+
+    protected JobRootConfiguration getJobRootConfig() {
+        return jobRootConfig;
+    }
+
     private Object getHandler(final JobProperties.JobPropertiesEnum jobPropertiesEnum) {
         String handlerClassName = jobRootConfig.getTypeConfig().getCoreConfig().getJobProperties().get(jobPropertiesEnum);
         try {
@@ -83,7 +89,7 @@ public abstract class AbstractElasticJobExecutor {
     }
     
     private Object getDefaultHandler(final JobProperties.JobPropertiesEnum jobPropertiesEnum, final String handlerClassName) {
-        log.warn("Cannot instantiation class '{}', use default '{}' class.", handlerClassName, jobPropertiesEnum.getKey());
+        logger.warn("Cannot instantiation class '{}', use default '{}' class.", handlerClassName, jobPropertiesEnum.getKey());
         try {
             return Class.forName(jobPropertiesEnum.getDefaultValue()).newInstance();
         } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -200,12 +206,12 @@ public abstract class AbstractElasticJobExecutor {
         if (shardingContexts.isAllowSendJobEvent()) {
             jobFacade.postJobExecutionEvent(startEvent);
         }
-        log.trace("Job '{}' executing, item is: '{}'.", jobName, item);
+        logger.trace("Job '{}' executing, item is: '{}'.", jobName, item);
         JobExecutionEvent completeEvent;
         try {
             process(new ShardingContext(shardingContexts, item));
             completeEvent = startEvent.executionSuccess();
-            log.trace("Job '{}' executed, item is: '{}'.", jobName, item);
+            logger.trace("Job '{}' executed, item is: '{}'.", jobName, item);
             if (shardingContexts.isAllowSendJobEvent()) {
                 jobFacade.postJobExecutionEvent(completeEvent);
             }

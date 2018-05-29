@@ -23,20 +23,9 @@ import com.dangdang.ddframe.job.exception.JobSystemException;
 import com.dangdang.ddframe.job.executor.JobExecutorFactory;
 import com.dangdang.ddframe.job.executor.JobFacade;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.apache.mesos.ExecutorDriver;
 import org.apache.mesos.Protos;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.plugins.management.ShutdownHookPlugin;
 
@@ -49,7 +38,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhangliang
  * @author caohao
  */
-@RequiredArgsConstructor
 public final class DaemonTaskScheduler {
     
     public static final String ELASTIC_JOB_DATA_MAP_KEY = "elasticJob";
@@ -71,7 +59,15 @@ public final class DaemonTaskScheduler {
     private final ExecutorDriver executorDriver;
     
     private final Protos.TaskID taskId;
-    
+
+    public DaemonTaskScheduler(ElasticJob elasticJob, JobRootConfiguration jobRootConfig, JobFacade jobFacade, ExecutorDriver executorDriver, Protos.TaskID taskId) {
+        this.elasticJob = elasticJob;
+        this.jobRootConfig = jobRootConfig;
+        this.jobFacade = jobFacade;
+        this.executorDriver = executorDriver;
+        this.taskId = taskId;
+    }
+
     /**
      * 初始化作业.
      */
@@ -146,18 +142,30 @@ public final class DaemonTaskScheduler {
      */
     public static final class DaemonJob implements Job {
         
-        @Setter
         private ElasticJob elasticJob;
         
-        @Setter
         private JobFacade jobFacade;
         
-        @Setter
         private ExecutorDriver executorDriver;
     
-        @Setter
         private Protos.TaskID taskId;
-        
+
+        public void setElasticJob(ElasticJob elasticJob) {
+            this.elasticJob = elasticJob;
+        }
+
+        public void setJobFacade(JobFacade jobFacade) {
+            this.jobFacade = jobFacade;
+        }
+
+        public void setExecutorDriver(ExecutorDriver executorDriver) {
+            this.executorDriver = executorDriver;
+        }
+
+        public void setTaskId(Protos.TaskID taskId) {
+            this.taskId = taskId;
+        }
+
         @Override
         public void execute(final JobExecutionContext context) throws JobExecutionException {
             ShardingContexts shardingContexts = jobFacade.getShardingContexts();

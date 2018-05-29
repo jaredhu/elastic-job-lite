@@ -18,14 +18,14 @@
 package com.dangdang.ddframe.job.fixture;
 
 import com.dangdang.ddframe.job.executor.ShardingContexts;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ShardingContextsBuilder {
+
+    private ShardingContextsBuilder() {
+    }
     
     public static final String JOB_NAME = "test_job";
     

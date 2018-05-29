@@ -19,13 +19,15 @@ package com.dangdang.ddframe.job.fixture.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestSimpleJob implements SimpleJob {
     
     private final JobCaller jobCaller;
-    
+
+    public TestSimpleJob(JobCaller jobCaller) {
+        this.jobCaller = jobCaller;
+    }
+
     @Override
     public void execute(final ShardingContext shardingContext) {
         jobCaller.execute();

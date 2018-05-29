@@ -24,25 +24,22 @@ import com.dangdang.ddframe.job.lite.lifecycle.api.JobStatisticsAPI;
 import com.dangdang.ddframe.job.lite.lifecycle.domain.JobBriefInfo;
 import com.dangdang.ddframe.job.lite.lifecycle.domain.JobBriefInfo.JobStatus;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 作业状态展示的实现类.
  *
  * @author caohao
  */
-@RequiredArgsConstructor
 public final class JobStatisticsAPIImpl implements JobStatisticsAPI {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public JobStatisticsAPIImpl(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     @Override
     public int getJobsTotalCount() {
         return regCenter.getChildrenKeys("/").size();

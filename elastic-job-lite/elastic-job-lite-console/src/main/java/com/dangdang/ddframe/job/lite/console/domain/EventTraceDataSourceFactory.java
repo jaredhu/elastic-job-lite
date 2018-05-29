@@ -6,8 +6,6 @@ import com.google.common.base.Strings;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,11 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author zhangxinguo
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EventTraceDataSourceFactory {
     
-    private static final ConcurrentHashMap<HashCode, EventTraceDataSource> DATA_SOURCE_REGISTRY = new ConcurrentHashMap<>(); 
-    
+    private static final ConcurrentHashMap<HashCode, EventTraceDataSource> DATA_SOURCE_REGISTRY = new ConcurrentHashMap<>();
+
+
+    private EventTraceDataSourceFactory() {
+    }
+
     /**
      * 创建事件追踪数据源.
      * 

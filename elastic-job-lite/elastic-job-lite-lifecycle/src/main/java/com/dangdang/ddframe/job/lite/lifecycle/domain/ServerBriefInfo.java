@@ -17,10 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.lifecycle.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,9 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author caohao
  */
-@RequiredArgsConstructor
-@Getter
-@Setter
 public final class ServerBriefInfo implements Serializable, Comparable<ServerBriefInfo> {
     
     private static final long serialVersionUID = 1133149706443681483L;
@@ -49,7 +42,47 @@ public final class ServerBriefInfo implements Serializable, Comparable<ServerBri
     private int jobsNum;
     
     private AtomicInteger disabledJobsNum = new AtomicInteger();
-    
+
+    public ServerBriefInfo(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public Set<String> getInstances() {
+        return instances;
+    }
+
+    public Set<String> getJobNames() {
+        return jobNames;
+    }
+
+    public int getInstancesNum() {
+        return instancesNum;
+    }
+
+    public void setInstancesNum(int instancesNum) {
+        this.instancesNum = instancesNum;
+    }
+
+    public int getJobsNum() {
+        return jobsNum;
+    }
+
+    public void setJobsNum(int jobsNum) {
+        this.jobsNum = jobsNum;
+    }
+
+    public AtomicInteger getDisabledJobsNum() {
+        return disabledJobsNum;
+    }
+
+    public void setDisabledJobsNum(AtomicInteger disabledJobsNum) {
+        this.disabledJobsNum = disabledJobsNum;
+    }
+
     @Override
     public int compareTo(final ServerBriefInfo o) {
         return (getServerIp()).compareTo(o.getServerIp());

@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.exception;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -28,9 +25,11 @@ import java.io.StringWriter;
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ExceptionUtil {
-    
+
+    private ExceptionUtil() {
+    }
+
     /**
      * 将Throwable异常转换为字符串.
      *

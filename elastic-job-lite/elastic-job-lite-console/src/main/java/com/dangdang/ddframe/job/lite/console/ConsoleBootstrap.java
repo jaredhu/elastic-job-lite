@@ -22,21 +22,23 @@ import com.dangdang.ddframe.job.lite.console.restful.JobOperationRestfulApi;
 import com.dangdang.ddframe.job.restful.RestfulServer;
 import com.dangdang.ddframe.job.security.WwwAuthFilter;
 import com.google.common.base.Optional;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 界面启动器.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Slf4j
 public final class ConsoleBootstrap {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleBootstrap.class);
     
     private static final String CONSOLE_PATH = "console";
-    
+
+    private ConsoleBootstrap() {
+    }
+
     /**
      * 启动RESTful服务并加载页面.
      * 
@@ -51,7 +53,7 @@ public final class ConsoleBootstrap {
             try {
                 port = Integer.parseInt(args[0]);
             } catch (final NumberFormatException ex) {
-                log.warn("Wrong port format, using default port 8899 instead.");
+                logger.warn("Wrong port format, using default port 8899 instead.");
             }
         }
         RestfulServer restfulServer = new RestfulServer(port);

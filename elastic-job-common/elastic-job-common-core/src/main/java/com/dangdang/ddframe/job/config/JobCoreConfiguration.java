@@ -20,18 +20,12 @@ package com.dangdang.ddframe.job.config;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 作业核心配置.
  * 
  * @author zhangliang
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
 public final class JobCoreConfiguration {
     
     private final String jobName;
@@ -51,7 +45,55 @@ public final class JobCoreConfiguration {
     private final String description;
     
     private final JobProperties jobProperties;
-    
+
+    private JobCoreConfiguration(String jobName, String cron, int shardingTotalCount, String shardingItemParameters, String jobParameter, boolean failover, boolean misfire, String description, JobProperties jobProperties) {
+        this.jobName = jobName;
+        this.cron = cron;
+        this.shardingTotalCount = shardingTotalCount;
+        this.shardingItemParameters = shardingItemParameters;
+        this.jobParameter = jobParameter;
+        this.failover = failover;
+        this.misfire = misfire;
+        this.description = description;
+        this.jobProperties = jobProperties;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public String getCron() {
+        return cron;
+    }
+
+    public int getShardingTotalCount() {
+        return shardingTotalCount;
+    }
+
+    public String getShardingItemParameters() {
+        return shardingItemParameters;
+    }
+
+    public String getJobParameter() {
+        return jobParameter;
+    }
+
+    public boolean isFailover() {
+        return failover;
+    }
+
+    public boolean isMisfire() {
+        return misfire;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public JobProperties getJobProperties() {
+        return jobProperties;
+    }
+
     /**
      * 创建简单作业配置构建器.
      *
@@ -64,7 +106,6 @@ public final class JobCoreConfiguration {
         return new Builder(jobName, cron, shardingTotalCount);
     }
     
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
         
         private final String jobName;
@@ -84,7 +125,13 @@ public final class JobCoreConfiguration {
         private String description = "";
         
         private final JobProperties jobProperties = new JobProperties();
-        
+
+        private Builder(String jobName, String cron, int shardingTotalCount) {
+            this.jobName = jobName;
+            this.cron = cron;
+            this.shardingTotalCount = shardingTotalCount;
+        }
+
         /**
          * 设置分片序列号和个性化参数对照表.
          *

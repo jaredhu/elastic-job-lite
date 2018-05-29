@@ -19,16 +19,16 @@ package com.dangdang.ddframe.job.lite.integrate;
 
 import com.dangdang.ddframe.job.reg.exception.RegExceptionHandler;
 import com.google.common.base.Joiner;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.apache.curator.test.TestingServer;
 
 import java.io.File;
 import java.io.IOException;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class EmbedTestingServer {
-    
+
+    private EmbedTestingServer() {
+    }
+
     private static final int PORT = 3181;
     
     private static volatile TestingServer testingServer;

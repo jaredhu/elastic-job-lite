@@ -17,23 +17,38 @@
 
 package com.dangdang.ddframe.job.event.type;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-
 /**
  * 作业执行事件Throwable.
  *
  * @author liguangyun
  */
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Getter
-@ToString(of = "plainText")
 public final class JobExecutionEventThrowable {
     
     private final Throwable throwable;
     
     private String plainText;
+
+    public JobExecutionEventThrowable(Throwable throwable) {
+        this.throwable = throwable;
+    }
+
+    public JobExecutionEventThrowable(Throwable throwable, String plainText) {
+        this.throwable = throwable;
+        this.plainText = plainText;
+    }
+
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
+    public String getPlainText() {
+        return plainText;
+    }
+
+    @Override
+    public String toString() {
+        return "JobExecutionEventThrowable{" +
+                "plainText='" + plainText + '\'' +
+                '}';
+    }
 }

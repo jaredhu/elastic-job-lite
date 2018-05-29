@@ -36,28 +36,23 @@ import com.dangdang.ddframe.job.statistics.type.job.JobTypeStatistics;
 import com.dangdang.ddframe.job.statistics.type.task.TaskResultStatistics;
 import com.dangdang.ddframe.job.statistics.type.task.TaskRunningStatistics;
 import com.google.common.base.Optional;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 统计作业调度管理器.
  *
  * @author liguangyun
  */
-@Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StatisticManager {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(StatisticManager.class);
+
     private static volatile StatisticManager instance;
     
     private final CoordinatorRegistryCenter registryCenter;
@@ -71,7 +66,15 @@ public final class StatisticManager {
     private final Map<StatisticInterval, TaskResultMetaData> statisticData;
     
     private StatisticRdbRepository rdbRepository;
-    
+
+    private StatisticManager(CoordinatorRegistryCenter registryCenter, CloudJobConfigurationService configurationService, Optional<JobEventRdbConfiguration> jobEventRdbConfiguration, StatisticsScheduler scheduler, Map<StatisticInterval, TaskResultMetaData> statisticData) {
+        this.registryCenter = registryCenter;
+        this.configurationService = configurationService;
+        this.jobEventRdbConfiguration = jobEventRdbConfiguration;
+        this.scheduler = scheduler;
+        this.statisticData = statisticData;
+    }
+
     private StatisticManager(final CoordinatorRegistryCenter registryCenter, final Optional<JobEventRdbConfiguration> jobEventRdbConfiguration,
                              final StatisticsScheduler scheduler, final Map<StatisticInterval, TaskResultMetaData> statisticData) {
         this.registryCenter = registryCenter;
@@ -109,7 +112,7 @@ public final class StatisticManager {
             try {
                 instance.rdbRepository = new StatisticRdbRepository(instance.jobEventRdbConfiguration.get().getDataSource());
             } catch (final SQLException ex) {
-                log.error("Init StatisticRdbRepository error:", ex);
+                logger.error("Init StatisticRdbRepository error:", ex);
             }
         }
     }

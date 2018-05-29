@@ -17,13 +17,13 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.mesos.fixture;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.apache.mesos.Protos;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OfferBuilder {
-    
+
+    private OfferBuilder() {
+    }
+
     public static Protos.Offer createOffer(final String offerId) {
         return Protos.Offer.newBuilder()
                 .setId(Protos.OfferID.newBuilder().setValue(offerId))

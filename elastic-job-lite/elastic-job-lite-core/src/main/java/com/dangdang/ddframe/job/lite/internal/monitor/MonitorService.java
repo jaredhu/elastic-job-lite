@@ -21,15 +21,12 @@ import com.dangdang.ddframe.job.lite.internal.config.ConfigurationService;
 import com.dangdang.ddframe.job.lite.internal.util.SensitiveInfoUtils;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Joiner;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -40,8 +37,9 @@ import java.util.List;
  * 
  * @author caohao
  */
-@Slf4j
 public final class MonitorService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MonitorService.class);
     
     public static final String DUMP_COMMAND = "dump";
     
@@ -70,10 +68,10 @@ public final class MonitorService {
             return;
         }
         try {
-            log.info("Elastic job: Monitor service is running, the port is '{}'", port);
+            logger.info("Elastic job: Monitor service is running, the port is '{}'", port);
             openSocketForMonitor(port);
         } catch (final IOException ex) {
-            log.error("Elastic job: Monitor service listen failure, error is: ", ex);
+            logger.error("Elastic job: Monitor service listen failure, error is: ", ex);
         }
     }
     
@@ -87,7 +85,7 @@ public final class MonitorService {
                     try {
                         process(serverSocket.accept());
                     } catch (final IOException ex) {
-                        log.error("Elastic job: Monitor service open socket for monitor failure, error is: ", ex);
+                        logger.error("Elastic job: Monitor service open socket for monitor failure, error is: ", ex);
                     }
                 }
             }
@@ -142,7 +140,7 @@ public final class MonitorService {
             try {
                 serverSocket.close();
             } catch (final IOException ex) {
-                log.error("Elastic job: Monitor service close failure, error is: ", ex);
+                logger.error("Elastic job: Monitor service close failure, error is: ", ex);
             }
         }
     }

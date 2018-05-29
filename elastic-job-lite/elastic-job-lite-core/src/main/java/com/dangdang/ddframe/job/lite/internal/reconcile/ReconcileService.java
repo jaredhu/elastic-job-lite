@@ -23,7 +23,8 @@ import com.dangdang.ddframe.job.lite.internal.election.LeaderService;
 import com.dangdang.ddframe.job.lite.internal.sharding.ShardingService;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.util.concurrent.AbstractScheduledService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +33,9 @@ import java.util.concurrent.TimeUnit;
  *
  * @author caohao
  */
-@Slf4j
 public final class ReconcileService extends AbstractScheduledService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReconcileService.class);
     
     private long lastReconcileTime;
     
@@ -57,7 +59,7 @@ public final class ReconcileService extends AbstractScheduledService {
         if (reconcileIntervalMinutes > 0 && (System.currentTimeMillis() - lastReconcileTime >= reconcileIntervalMinutes * 60 * 1000)) {
             lastReconcileTime = System.currentTimeMillis();
             if (leaderService.isLeaderUntilBlock() && !shardingService.isNeedSharding() && shardingService.hasShardingInfoInOfflineServers()) {
-                log.warn("Elastic Job: job status node has inconsistent value,start reconciling...");
+                logger.warn("Elastic Job: job status node has inconsistent value,start reconciling...");
                 shardingService.setReshardingFlag();
             }
         }

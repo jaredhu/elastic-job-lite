@@ -18,18 +18,20 @@
 package com.dangdang.ddframe.job.executor.handler.impl;
 
 import com.dangdang.ddframe.job.executor.handler.JobExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 默认作业异常处理器.
  *
  * @author zhangliang
  */
-@Slf4j
 public final class DefaultJobExceptionHandler implements JobExceptionHandler {
+
+    private static final Logger logger  = LoggerFactory.getLogger(DefaultJobExceptionHandler.class);
     
     @Override
     public void handleException(final String jobName, final Throwable cause) {
-        log.error(String.format("Job '%s' exception occur in job processing", jobName), cause);
+        logger.error(String.format("Job '%s' exception occur in job processing", jobName), cause);
     }
 }

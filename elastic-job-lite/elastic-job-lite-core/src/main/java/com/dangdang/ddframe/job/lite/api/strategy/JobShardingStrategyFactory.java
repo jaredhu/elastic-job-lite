@@ -20,17 +20,16 @@ package com.dangdang.ddframe.job.lite.api.strategy;
 import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import com.google.common.base.Strings;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * 作业分片策略工厂.
  * 
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobShardingStrategyFactory {
-    
+    private JobShardingStrategyFactory() {
+    }
+
     /**
      * 获取作业分片策略实例.
      * 

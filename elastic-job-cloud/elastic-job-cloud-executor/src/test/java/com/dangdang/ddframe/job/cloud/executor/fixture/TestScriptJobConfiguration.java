@@ -23,13 +23,15 @@ import com.dangdang.ddframe.job.config.JobRootConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
 import com.dangdang.ddframe.job.config.script.ScriptJobConfiguration;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestScriptJobConfiguration implements JobRootConfiguration {
     
     private final String scriptCommandLine;
-    
+
+    public TestScriptJobConfiguration(String scriptCommandLine) {
+        this.scriptCommandLine = scriptCommandLine;
+    }
+
     @Override
     public JobTypeConfiguration getTypeConfig() {
         return new ScriptJobConfiguration(JobCoreConfiguration.newBuilder("test_script_job", "0/1 * * * * ?", 3)

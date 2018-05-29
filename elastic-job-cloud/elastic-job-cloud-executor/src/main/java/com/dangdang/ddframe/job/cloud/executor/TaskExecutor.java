@@ -27,14 +27,14 @@ import com.dangdang.ddframe.job.executor.JobExecutorFactory;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.util.concurrent.ExecutorServiceObject;
 import com.google.common.base.Strings;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.mesos.Executor;
 import org.apache.mesos.ExecutorDriver;
 import org.apache.mesos.Protos;
 import org.apache.mesos.Protos.TaskInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
@@ -46,8 +46,9 @@ import java.util.concurrent.ExecutorService;
  *
  * @author zhangliang
  */
-@Slf4j
 public final class TaskExecutor implements Executor {
+
+    private static final Logger logger = LoggerFactory.getLogger(TaskExecutor.class);
     
     private final ExecutorService executorService;
     
@@ -94,7 +95,7 @@ public final class TaskExecutor implements Executor {
     @Override
     public void frameworkMessage(final ExecutorDriver executorDriver, final byte[] bytes) {
         if (null != bytes && "STOP".equals(new String(bytes))) {
-            log.error("call frameworkMessage executor stopped.");
+            logger.error("call frameworkMessage executor stopped.");
             executorDriver.stop();
         }
     }
@@ -105,16 +106,20 @@ public final class TaskExecutor implements Executor {
     
     @Override
     public void error(final ExecutorDriver executorDriver, final String message) {
-        log.error("call executor error, message is: {}", message);
+        logger.error("call executor error, message is: {}", message);
     }
     
-    @RequiredArgsConstructor
     class TaskThread implements Runnable {
         
         private final ExecutorDriver executorDriver;
         
         private final TaskInfo taskInfo;
-        
+
+        public TaskThread(ExecutorDriver executorDriver, TaskInfo taskInfo) {
+            this.executorDriver = executorDriver;
+            this.taskInfo = taskInfo;
+        }
+
         @Override
         public void run() {
             Thread.currentThread().setContextClassLoader(TaskThread.class.getClassLoader());
@@ -135,7 +140,7 @@ public final class TaskExecutor implements Executor {
                 // CHECKSTYLE:OFF
             } catch (final Throwable ex) {
                 // CHECKSTYLE:ON
-                log.error("Elastic-Job-Cloud-Executor error", ex);
+                logger.error("Elastic-Job-Cloud-Executor error", ex);
                 executorDriver.sendStatusUpdate(Protos.TaskStatus.newBuilder().setTaskId(taskInfo.getTaskId()).setState(Protos.TaskState.TASK_ERROR).setMessage(ExceptionUtil.transform(ex)).build());
                 executorDriver.stop();
                 throw ex;

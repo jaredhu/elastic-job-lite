@@ -18,16 +18,7 @@
 package com.dangdang.ddframe.job.reg;
 
 import com.dangdang.ddframe.job.reg.exception.RegExceptionHandlerTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfigurationTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperElectionServiceTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterForAuthTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterInitFailureTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterMiscellaneousTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterModifyTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterQueryWithCacheTest;
-import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenterQueryWithoutCacheTest;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.dangdang.ddframe.job.reg.zookeeper.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -44,6 +35,8 @@ import org.junit.runners.Suite.SuiteClasses;
         RegExceptionHandlerTest.class, 
         ZookeeperRegistryCenterInitFailureTest.class
     })
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AllRegTests {
+
+    private AllRegTests() {
+    }
 }

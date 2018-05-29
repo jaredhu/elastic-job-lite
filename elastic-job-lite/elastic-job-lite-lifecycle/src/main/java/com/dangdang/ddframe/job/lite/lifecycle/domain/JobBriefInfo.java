@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.lifecycle.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 
 /**
@@ -27,8 +24,6 @@ import java.io.Serializable;
  *
  * @author caohao
  */
-@Getter
-@Setter
 public final class JobBriefInfo implements Serializable, Comparable<JobBriefInfo> {
     
     private static final long serialVersionUID = 8405751873086755148L;
@@ -44,7 +39,55 @@ public final class JobBriefInfo implements Serializable, Comparable<JobBriefInfo
     private int instanceCount;
     
     private int shardingTotalCount;
-    
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public JobStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatus status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCron() {
+        return cron;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
+
+    public int getInstanceCount() {
+        return instanceCount;
+    }
+
+    public void setInstanceCount(int instanceCount) {
+        this.instanceCount = instanceCount;
+    }
+
+    public int getShardingTotalCount() {
+        return shardingTotalCount;
+    }
+
+    public void setShardingTotalCount(int shardingTotalCount) {
+        this.shardingTotalCount = shardingTotalCount;
+    }
+
     @Override
     public int compareTo(final JobBriefInfo o) {
         return getJobName().compareTo(o.getJobName());

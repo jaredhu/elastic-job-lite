@@ -17,17 +17,16 @@
 
 package com.dangdang.ddframe.job.lite.spring.job.parser.common;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * 作业基本属性解析标签.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BaseJobBeanDefinitionParserTag {
-    
+
+    private BaseJobBeanDefinitionParserTag() {
+    }
+
     public static final String CLASS_ATTRIBUTE = "class";
     
     public static final String JOB_REF_ATTRIBUTE = "job-ref";

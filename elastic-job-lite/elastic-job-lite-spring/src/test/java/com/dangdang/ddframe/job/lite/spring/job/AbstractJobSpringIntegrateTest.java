@@ -22,7 +22,6 @@ import com.dangdang.ddframe.job.lite.spring.fixture.job.DataflowElasticJob;
 import com.dangdang.ddframe.job.lite.spring.fixture.job.FooSimpleElasticJob;
 import com.dangdang.ddframe.job.lite.spring.test.AbstractZookeeperJUnit4SpringContextTests;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.RequiredArgsConstructor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +30,17 @@ import javax.annotation.Resource;
 
 import static org.junit.Assert.assertTrue;
 
-@RequiredArgsConstructor
 public abstract class AbstractJobSpringIntegrateTest extends AbstractZookeeperJUnit4SpringContextTests {
     
     private final String simpleJobName;
     
     private final String throughputDataflowJobName;
-    
+
+    public AbstractJobSpringIntegrateTest(String simpleJobName, String throughputDataflowJobName) {
+        this.simpleJobName = simpleJobName;
+        this.throughputDataflowJobName = throughputDataflowJobName;
+    }
+
     @Resource
     private CoordinatorRegistryCenter regCenter;
     

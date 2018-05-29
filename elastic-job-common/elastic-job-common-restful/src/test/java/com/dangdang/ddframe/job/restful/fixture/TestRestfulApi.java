@@ -18,7 +18,6 @@
 package com.dangdang.ddframe.job.restful.fixture;
 
 import com.google.common.collect.Maps;
-import lombok.Setter;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -29,9 +28,12 @@ import java.util.Map;
 @Path("/test")
 public final class TestRestfulApi {
     
-    @Setter
     private static Caller caller;
-    
+
+    public static void setCaller(Caller caller) {
+        TestRestfulApi.caller = caller;
+    }
+
     @POST
     @Path("/call")
     @Consumes(MediaType.APPLICATION_JSON)

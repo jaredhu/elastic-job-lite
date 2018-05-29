@@ -17,16 +17,11 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.env;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Mesos配置项.
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class MesosConfiguration {
     
     /**
@@ -44,4 +39,22 @@ public final class MesosConfiguration {
     private final String url;
     
     private final String hostname;
+
+    public MesosConfiguration(String user, String url, String hostname) {
+        this.user = user;
+        this.url = url;
+        this.hostname = hostname;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
 }

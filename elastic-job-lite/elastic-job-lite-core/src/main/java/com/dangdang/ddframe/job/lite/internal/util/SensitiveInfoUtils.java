@@ -21,8 +21,6 @@ import com.dangdang.ddframe.job.util.env.IpUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +34,13 @@ import java.util.regex.Pattern;
  * 
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SensitiveInfoUtils {
     
     private static final String FAKE_IP_SAMPLE = "ip";
-    
+
+    private SensitiveInfoUtils() {
+    }
+
     /**
      * 屏蔽替换IP地址敏感信息.
      * 

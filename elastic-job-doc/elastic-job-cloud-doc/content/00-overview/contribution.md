@@ -156,9 +156,6 @@ next = "/01-start"
 Elastic-Job的代码编译需要[Maven](http://maven.apache.org/)，请保证IDE中正确配置了它。
 代码用到的所有依赖完全都可以从公网下载，请根据自身的网络情况选择合理的镜像。
 
-代码使用了[Lombok](https://projectlombok.org/download.html)来生成类属性的访问方法，构造器等。
-故请以上从链接内容来获取适合您的IDE的解决方法。
-
 ### 文档生成
 
 文档使用博客生成引擎[HUGO](https://gohugo.io/)，请根据文档安装环境。

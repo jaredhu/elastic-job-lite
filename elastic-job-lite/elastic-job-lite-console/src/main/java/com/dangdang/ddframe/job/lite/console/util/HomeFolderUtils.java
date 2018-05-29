@@ -17,9 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.console.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.io.File;
 
 /**
@@ -27,9 +24,11 @@ import java.io.File;
  * 
  * @author zhangliang 
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HomeFolderUtils {
-    
+
+    private HomeFolderUtils() {
+    }
+
     private static final String USER_HOME = System.getProperty("user.home");
     
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");

@@ -32,9 +32,9 @@ import com.dangdang.ddframe.job.lite.internal.storage.JobNodeStorage;
 import com.dangdang.ddframe.job.lite.internal.storage.TransactionExecutionCallback;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.util.concurrent.BlockUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.api.transaction.CuratorTransactionFinal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -46,8 +46,9 @@ import java.util.Map;
  * 
  * @author zhangliang
  */
-@Slf4j
 public final class ShardingService {
+
+    private static Logger logger = LoggerFactory.getLogger(ShardingService.class);
     
     private final String jobName;
     
@@ -111,24 +112,24 @@ public final class ShardingService {
         waitingOtherShardingItemCompleted();
         LiteJobConfiguration liteJobConfig = configService.load(false);
         int shardingTotalCount = liteJobConfig.getTypeConfig().getCoreConfig().getShardingTotalCount();
-        log.debug("Job '{}' sharding begin.", jobName);
+        logger.debug("Job '{}' sharding begin.", jobName);
         jobNodeStorage.fillEphemeralJobNode(ShardingNode.PROCESSING, "");
         resetShardingInfo(shardingTotalCount);
         JobShardingStrategy jobShardingStrategy = JobShardingStrategyFactory.getStrategy(liteJobConfig.getJobShardingStrategyClass());
         jobNodeStorage.executeInTransaction(new PersistShardingInfoTransactionExecutionCallback(jobShardingStrategy.sharding(availableJobInstances, jobName, shardingTotalCount)));
-        log.debug("Job '{}' sharding complete.", jobName);
+        logger.debug("Job '{}' sharding complete.", jobName);
     }
     
     private void blockUntilShardingCompleted() {
         while (!leaderService.isLeaderUntilBlock() && (jobNodeStorage.isJobNodeExisted(ShardingNode.NECESSARY) || jobNodeStorage.isJobNodeExisted(ShardingNode.PROCESSING))) {
-            log.debug("Job '{}' sleep short time until sharding completed.", jobName);
+            logger.debug("Job '{}' sleep short time until sharding completed.", jobName);
             BlockUtils.waitingShortTime();
         }
     }
     
     private void waitingOtherShardingItemCompleted() {
         while (executionService.hasRunningItems()) {
-            log.debug("Job '{}' sleep short time until other job completed.", jobName);
+            logger.debug("Job '{}' sleep short time until other job completed.", jobName);
             BlockUtils.waitingShortTime();
         }
     }
@@ -195,11 +196,14 @@ public final class ShardingService {
         return false;
     }
     
-    @RequiredArgsConstructor
     class PersistShardingInfoTransactionExecutionCallback implements TransactionExecutionCallback {
         
         private final Map<JobInstance, List<Integer>> shardingResults;
-        
+
+        public PersistShardingInfoTransactionExecutionCallback(Map<JobInstance, List<Integer>> shardingResults) {
+            this.shardingResults = shardingResults;
+        }
+
         @Override
         public void execute(final CuratorTransactionFinal curatorTransactionFinal) throws Exception {
             for (Map.Entry<JobInstance, List<Integer>> entry : shardingResults.entrySet()) {

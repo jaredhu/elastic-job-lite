@@ -20,18 +20,20 @@ package com.dangdang.ddframe.job.cloud.scheduler.ha;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import lombok.RequiredArgsConstructor;
 
 /**
  * FrameworkID 的保存器.
  * 
  * @author gaohongtao
  */
-@RequiredArgsConstructor
 public final class FrameworkIDService {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public FrameworkIDService(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     /**
      * 获取FrameworkID,返回值是一个可选的结果.
      * 

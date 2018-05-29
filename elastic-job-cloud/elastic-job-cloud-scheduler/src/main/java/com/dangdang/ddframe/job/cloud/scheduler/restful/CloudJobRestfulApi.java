@@ -46,34 +46,19 @@ import com.dangdang.ddframe.job.util.json.GsonFactory;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
@@ -84,9 +69,10 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
  * @author liguangyun
  */
 @Path("/job")
-@Slf4j
 public final class CloudJobRestfulApi {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(CloudJobRestfulApi.class);
+
     private static CoordinatorRegistryCenter regCenter;
     
     private static JobEventRdbSearch jobEventRdbSearch;

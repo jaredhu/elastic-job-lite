@@ -28,52 +28,51 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sun.jersey.api.client.Client;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Mesos状态服务.
- * 
+ *
  * @author gaohongtao
  */
-@Slf4j
 public class MesosStateService {
-    
+    private static final Logger logger = LoggerFactory.getLogger(MesosStateService.class);
+
     private static String stateUrl;
-    
+
     private final FrameworkIDService frameworkIDService;
-    
+
     public MesosStateService(final CoordinatorRegistryCenter regCenter) {
         frameworkIDService = new FrameworkIDService(regCenter);
     }
-    
+
     /**
      * 注册Mesos的Master信息.
-     * 
+     *
      * @param hostName Master的主机名
-     * @param port Master端口
+     * @param port     Master端口
      */
     public static synchronized void register(final String hostName, final int port) {
         stateUrl = String.format("http://%s:%d/state", hostName, port);
     }
-    
+
     /**
      * 注销Mesos的Master信息.
      */
     public static synchronized void deregister() {
         stateUrl = null;
     }
-    
+
     /**
      * 获取沙箱信息.
-     * 
+     *
      * @param appName 作业云配置App的名字
      * @return 沙箱信息
      * @throws JSONException 解析JSON格式异常
@@ -103,10 +102,10 @@ public class MesosStateService {
         }
         return result;
     }
-    
+
     /**
      * 查找执行器信息.
-     * 
+     *
      * @param appName 作业云配置App的名字
      * @return 执行器信息
      * @throws JSONException 解析JSON格式异常
@@ -123,7 +122,7 @@ public class MesosStateService {
             }
         });
     }
-    
+
     /**
      * 获取所有执行器.
      *
@@ -133,12 +132,12 @@ public class MesosStateService {
     public Collection<ExecutorStateInfo> executors() throws JSONException {
         return executors(null);
     }
-    
+
     private JSONObject fetch(final String url) {
         Preconditions.checkState(!Strings.isNullOrEmpty(url));
         return Client.create().resource(url).get(JSONObject.class);
     }
-    
+
     private Collection<JSONObject> findExecutors(final JSONArray frameworks, final String appName) throws JSONException {
         List<JSONObject> result = Lists.newArrayList();
         Optional<String> frameworkIDOptional = frameworkIDService.fetch();
@@ -163,17 +162,60 @@ public class MesosStateService {
         }
         return result;
     }
-    
+
     private String getExecutorId(final JSONObject executor) throws JSONException {
         return executor.has("id") ? executor.getString("id") : executor.getString("executor_id");
     }
-    
-    @Builder
-    @Getter
+
     public static final class ExecutorStateInfo {
-        
+
         private final String id;
-        
+
         private final String slaveId;
+
+        public ExecutorStateInfo(String id, String slaveId) {
+            this.id = id;
+            this.slaveId = slaveId;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getSlaveId() {
+            return slaveId;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+            private String id;
+
+            private String slaveId;
+
+            private Builder() {
+            }
+
+            public Builder id(String id) {
+                this.id = id;
+                return this;
+            }
+
+            public Builder slaveId(String slaveId) {
+                this.slaveId = slaveId;
+                return this;
+            }
+
+            @Override
+            public String toString() {
+                return "Builder(id=" + id + ", slaveId=" + slaveId + ")";
+            }
+
+            public ExecutorStateInfo build() {
+                return new ExecutorStateInfo(id, slaveId);
+            }
+        }
     }
 }

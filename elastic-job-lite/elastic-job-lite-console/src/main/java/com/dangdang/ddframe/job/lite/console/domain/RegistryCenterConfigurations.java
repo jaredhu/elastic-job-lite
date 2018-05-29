@@ -17,8 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.console.domain;
 
-import lombok.Getter;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,10 +28,13 @@ import java.util.Set;
  *
  * @author zhangliang
  */
-@Getter
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class RegistryCenterConfigurations {
     
     private Set<RegistryCenterConfiguration> registryCenterConfiguration = new LinkedHashSet<>();
+
+    public Set<RegistryCenterConfiguration> getRegistryCenterConfiguration() {
+        return registryCenterConfiguration;
+    }
 }

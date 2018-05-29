@@ -19,8 +19,6 @@ package com.dangdang.ddframe.job.lite.internal.schedule;
 
 import com.dangdang.ddframe.job.lite.api.strategy.JobInstance;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhangliang
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobRegistry {
     
     private static volatile JobRegistry instance;
@@ -45,7 +42,10 @@ public final class JobRegistry {
     private Map<String, Boolean> jobRunningMap = new ConcurrentHashMap<>();
     
     private Map<String, Integer> currentShardingTotalCountMap = new ConcurrentHashMap<>();
-    
+
+    private JobRegistry() {
+    }
+
     /**
      * 获取作业注册表实例.
      * 

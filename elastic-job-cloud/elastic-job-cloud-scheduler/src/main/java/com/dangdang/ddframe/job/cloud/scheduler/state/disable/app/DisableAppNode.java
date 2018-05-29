@@ -18,17 +18,17 @@
 package com.dangdang.ddframe.job.cloud.scheduler.state.disable.app;
 
 import com.dangdang.ddframe.job.cloud.scheduler.state.StateNode;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * 禁用应用队列节点路径.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class DisableAppNode {
-    
+
+    private DisableAppNode() {
+    }
+
     static final String ROOT = StateNode.ROOT + "/disable/app";
     
     private static final String DISABLE_APP = ROOT + "/%s";

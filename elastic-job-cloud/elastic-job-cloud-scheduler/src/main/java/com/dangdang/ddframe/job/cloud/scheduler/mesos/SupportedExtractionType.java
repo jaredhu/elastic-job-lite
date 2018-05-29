@@ -17,8 +17,6 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.mesos;
 
-import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,9 +25,11 @@ import java.util.Set;
  *
  * @author zhangliang
  */
-@NoArgsConstructor
 public final class SupportedExtractionType {
-    
+
+    public SupportedExtractionType() {
+    }
+
     private static final Set<String> EXTRACTION_TYPES = new HashSet<>(9, 1);
     
     static {

@@ -17,20 +17,11 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.config.app;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-
 /**
  * 云作业App配置对象.
  *
  * @author caohao
  */
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Getter
-@ToString
 public final class CloudAppConfiguration {
     
     private final String appName;
@@ -46,4 +37,61 @@ public final class CloudAppConfiguration {
     private boolean appCacheEnable = true;
     
     private int eventTraceSamplingCount;
+
+    public CloudAppConfiguration(String appName, String appURL, String bootstrapScript) {
+        this.appName = appName;
+        this.appURL = appURL;
+        this.bootstrapScript = bootstrapScript;
+    }
+
+    public CloudAppConfiguration(String appName, String appURL, String bootstrapScript, double cpuCount, double memoryMB, boolean appCacheEnable, int eventTraceSamplingCount) {
+        this.appName = appName;
+        this.appURL = appURL;
+        this.bootstrapScript = bootstrapScript;
+        this.cpuCount = cpuCount;
+        this.memoryMB = memoryMB;
+        this.appCacheEnable = appCacheEnable;
+        this.eventTraceSamplingCount = eventTraceSamplingCount;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public String getAppURL() {
+        return appURL;
+    }
+
+    public String getBootstrapScript() {
+        return bootstrapScript;
+    }
+
+    public double getCpuCount() {
+        return cpuCount;
+    }
+
+    public double getMemoryMB() {
+        return memoryMB;
+    }
+
+    public boolean isAppCacheEnable() {
+        return appCacheEnable;
+    }
+
+    public int getEventTraceSamplingCount() {
+        return eventTraceSamplingCount;
+    }
+
+    @Override
+    public String toString() {
+        return "CloudAppConfiguration{" +
+                "appName='" + appName + '\'' +
+                ", appURL='" + appURL + '\'' +
+                ", bootstrapScript='" + bootstrapScript + '\'' +
+                ", cpuCount=" + cpuCount +
+                ", memoryMB=" + memoryMB +
+                ", appCacheEnable=" + appCacheEnable +
+                ", eventTraceSamplingCount=" + eventTraceSamplingCount +
+                '}';
+    }
 }

@@ -21,14 +21,14 @@ import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
 import com.dangdang.ddframe.job.exception.JobExecutionEnvironmentException;
 import com.dangdang.ddframe.job.executor.JobFacade;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class ElasticJobVerify {
+
+    private ElasticJobVerify() {
+    }
     
     public static void prepareForIsNotMisfire(final JobFacade jobFacade, final ShardingContexts shardingContexts) {
         when(jobFacade.getShardingContexts()).thenReturn(shardingContexts);

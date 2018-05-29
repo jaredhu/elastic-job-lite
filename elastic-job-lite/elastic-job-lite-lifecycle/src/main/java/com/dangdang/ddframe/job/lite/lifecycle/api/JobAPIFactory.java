@@ -25,17 +25,17 @@ import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.JobStatistics
 import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.ServerStatisticsAPIImpl;
 import com.dangdang.ddframe.job.lite.lifecycle.internal.statistics.ShardingStatisticsAPIImpl;
 import com.google.common.base.Optional;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * 作业API工厂.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobAPIFactory {
-    
+
+    private JobAPIFactory() {
+    }
+
     /**
      * 创建作业配置API对象.
      *

@@ -25,13 +25,15 @@ import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.dangdang.ddframe.job.fixture.ShardingContextsBuilder;
 import com.dangdang.ddframe.job.fixture.handler.IgnoreJobExceptionHandler;
 import com.dangdang.ddframe.job.fixture.job.TestDataflowJob;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public final class TestDataflowJobConfiguration implements JobRootConfiguration {
     
     private final boolean streamingProcess;
-    
+
+    public TestDataflowJobConfiguration(boolean streamingProcess) {
+        this.streamingProcess = streamingProcess;
+    }
+
     @Override
     public JobTypeConfiguration getTypeConfig() {
         return new DataflowJobConfiguration(JobCoreConfiguration.newBuilder(ShardingContextsBuilder.JOB_NAME, "0/1 * * * * ?", 3)

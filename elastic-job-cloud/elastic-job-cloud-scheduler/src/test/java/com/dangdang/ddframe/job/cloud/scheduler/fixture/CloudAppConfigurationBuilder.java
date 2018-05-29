@@ -18,12 +18,12 @@
 package com.dangdang.ddframe.job.cloud.scheduler.fixture;
 
 import com.dangdang.ddframe.job.cloud.scheduler.config.app.CloudAppConfiguration;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CloudAppConfigurationBuilder {
-    
+
+    private CloudAppConfigurationBuilder() {
+    }
+
     public static CloudAppConfiguration createCloudAppConfiguration(final String appName) {
         return new CloudAppConfiguration(appName, "http://localhost/app.jar", "bin/start.sh");
     }

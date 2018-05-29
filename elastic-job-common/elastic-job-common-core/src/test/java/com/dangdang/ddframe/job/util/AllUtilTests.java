@@ -26,8 +26,6 @@ import com.dangdang.ddframe.job.util.env.IpUtilsTest;
 import com.dangdang.ddframe.job.util.env.TimeServiceTest;
 import com.dangdang.ddframe.job.util.json.GsonFactoryTest;
 import com.dangdang.ddframe.job.util.json.JobConfigurationGsonTypeAdapterTest;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -44,6 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
         ShardingItemsTest.class, 
         ShardingItemParametersTest.class
     })
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AllUtilTests {
+
+    private AllUtilTests() {
+    }
 }

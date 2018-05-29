@@ -24,17 +24,17 @@ import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.dangdang.ddframe.job.executor.type.DataflowJobExecutor;
 import com.dangdang.ddframe.job.executor.type.ScriptJobExecutor;
 import com.dangdang.ddframe.job.executor.type.SimpleJobExecutor;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * 作业执行器工厂.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobExecutorFactory {
-    
+
+    private JobExecutorFactory() {
+    }
+
     /**
      * 获取作业执行器.
      *

@@ -17,22 +17,21 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.statistics.util;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.dangdang.ddframe.job.statistics.StatisticInterval;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 统计时间工具类.
  *
  * @author liguangyun
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StatisticTimeUtils {
-    
+
+    private StatisticTimeUtils() {
+    }
+
     /**
      * 获取以interval为时间间隔单位的统计时间.
      * 

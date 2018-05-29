@@ -17,10 +17,6 @@
 
 package com.dangdang.ddframe.job.lite.console.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -32,11 +28,8 @@ import java.io.Serializable;
  *
  * @author zhangliang
  */
-@Getter
-@Setter
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@NoArgsConstructor
 public final class RegistryCenterConfiguration implements Serializable {
     
     private static final long serialVersionUID = -5996257770767863699L;
@@ -55,4 +48,47 @@ public final class RegistryCenterConfiguration implements Serializable {
     
     @XmlAttribute
     private boolean activated;
+
+    public RegistryCenterConfiguration() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getZkAddressList() {
+        return zkAddressList;
+    }
+
+    public void setZkAddressList(String zkAddressList) {
+        this.zkAddressList = zkAddressList;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 }

@@ -21,27 +21,21 @@ import com.dangdang.ddframe.job.util.json.GsonFactory;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.APP_CACHE_ENABLE;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.APP_NAME;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.APP_URL;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.BOOTSTRAP_SCRIPT;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.CPU_COUNT;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.EVENT_TRACE_SAMPLING_COUNT;
-import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.MEMORY_MB;
+import static com.dangdang.ddframe.job.cloud.scheduler.config.constants.CloudConfigurationConstants.*;
 
 /**
  * 云作业App配置的Gson工厂.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CloudAppConfigurationGsonFactory {
-    
+
+    private CloudAppConfigurationGsonFactory() {
+    }
+
     static  {
         GsonFactory.registerTypeAdapter(CloudAppConfiguration.class, new CloudAppConfigurationGsonTypeAdapter());
     }

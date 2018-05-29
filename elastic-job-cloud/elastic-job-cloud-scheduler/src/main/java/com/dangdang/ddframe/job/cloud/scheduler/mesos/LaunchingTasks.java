@@ -23,24 +23,20 @@ import com.dangdang.ddframe.job.context.TaskContext;
 import com.netflix.fenzo.TaskAssignmentResult;
 import com.netflix.fenzo.TaskRequest;
 import com.netflix.fenzo.VMAssignmentResult;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 分配任务行为包.
  *
  * @author zhangliang
  */
-@Slf4j
 public final class LaunchingTasks {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(LaunchingTasks.class);
+
     private final Map<String, JobContext> eligibleJobContextsMap;
     
     public LaunchingTasks(final Collection<JobContext> eligibleJobContexts) {
@@ -72,7 +68,7 @@ public final class LaunchingTasks {
         for (Map.Entry<String, Integer> entry : assignedJobShardingTotalCountMap.entrySet()) {
             JobContext jobContext = eligibleJobContextsMap.get(entry.getKey());
             if (ExecutionType.FAILOVER != jobContext.getType() && !entry.getValue().equals(jobContext.getJobConfig().getTypeConfig().getCoreConfig().getShardingTotalCount())) {
-                log.warn("Job {} is not assigned at this time, because resources not enough to run all sharding instances.", entry.getKey());
+                logger.warn("Job {} is not assigned at this time, because resources not enough to run all sharding instances.", entry.getKey());
                 result.add(entry.getKey());
             }
         }

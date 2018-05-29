@@ -17,9 +17,8 @@
 
 package com.dangdang.ddframe.job.lite.console.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,12 +28,16 @@ import java.sql.SQLException;
  * 
  * @author zhangxinguo
  */
-@Slf4j
 public final class EventTraceDataSource {
+
+    private static final Logger logger = LoggerFactory.getLogger(EventTraceDataSource.class);
     
-    @Getter(AccessLevel.PROTECTED)
     private EventTraceDataSourceConfiguration eventTraceDataSourceConfiguration;
-    
+
+    protected EventTraceDataSourceConfiguration getEventTraceDataSourceConfiguration() {
+        return eventTraceDataSourceConfiguration;
+    }
+
     public EventTraceDataSource(final EventTraceDataSourceConfiguration eventTraceDataSourceConfiguration) {
         this.eventTraceDataSourceConfiguration = eventTraceDataSourceConfiguration;
     }
@@ -43,7 +46,7 @@ public final class EventTraceDataSource {
      * 初始化.
      */
     public void init() {
-        log.debug("Elastic job: data source init, connection url is: {}.", eventTraceDataSourceConfiguration.getUrl());
+        logger.debug("Elastic job: data source init, connection url is: {}.", eventTraceDataSourceConfiguration.getUrl());
         try {
             Class.forName(eventTraceDataSourceConfiguration.getDriver());
             DriverManager.getConnection(eventTraceDataSourceConfiguration.getUrl(), eventTraceDataSourceConfiguration.getUsername(), eventTraceDataSourceConfiguration.getPassword());

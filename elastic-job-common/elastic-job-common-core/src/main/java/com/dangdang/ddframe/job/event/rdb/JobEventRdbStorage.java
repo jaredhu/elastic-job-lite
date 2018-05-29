@@ -23,15 +23,11 @@ import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
 import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent.Source;
 import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent.State;
 import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,9 +39,10 @@ import java.util.UUID;
  *
  * @author caohao
  */
-@Slf4j
 final class JobEventRdbStorage {
-    
+
+    private static final Logger logger  = LoggerFactory.getLogger(JobEventRdbStorage.class);
+
     private static final String TABLE_JOB_EXECUTION_LOG = "JOB_EXECUTION_LOG";
     
     private static final String TABLE_JOB_STATUS_TRACE_LOG = "JOB_STATUS_TRACE_LOG";
@@ -181,7 +178,7 @@ final class JobEventRdbStorage {
         } catch (final SQLException ex) {
             if (!isDuplicateRecord(ex)) {
                 // TODO 记录失败直接输出日志,未来可考虑配置化
-                log.error(ex.getMessage());    
+                logger.error(ex.getMessage());
             }
         }
         return result;
@@ -208,7 +205,7 @@ final class JobEventRdbStorage {
             result = true;
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -237,7 +234,7 @@ final class JobEventRdbStorage {
                 return updateJobExecutionEventWhenSuccess(jobExecutionEvent);
             }
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -258,7 +255,7 @@ final class JobEventRdbStorage {
             result = true;
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -287,7 +284,7 @@ final class JobEventRdbStorage {
                 return updateJobExecutionEventFailure(jobExecutionEvent);
             }
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -318,7 +315,7 @@ final class JobEventRdbStorage {
             result = true;
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -336,7 +333,7 @@ final class JobEventRdbStorage {
             }
         } catch (final SQLException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }
@@ -361,7 +358,7 @@ final class JobEventRdbStorage {
             }
         } catch (final SQLException | ParseException ex) {
             // TODO 记录失败直接输出日志,未来可考虑配置化
-            log.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return result;
     }

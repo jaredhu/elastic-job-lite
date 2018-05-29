@@ -17,16 +17,15 @@
 
 package com.dangdang.ddframe.job.lite.spring.job.parser.dataflow;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * 数据流作业属性解析标签.
  *
  * @author caohao
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DataflowJobBeanDefinitionParserTag {
-    
+
+    private DataflowJobBeanDefinitionParserTag() {
+    }
+
     public static final String STREAMING_PROCESS_ATTRIBUTE = "streaming-process";
 }

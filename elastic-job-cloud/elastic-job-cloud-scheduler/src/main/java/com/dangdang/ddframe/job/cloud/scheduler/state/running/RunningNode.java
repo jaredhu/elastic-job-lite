@@ -19,17 +19,17 @@ package com.dangdang.ddframe.job.cloud.scheduler.state.running;
 
 import com.dangdang.ddframe.job.cloud.scheduler.state.StateNode;
 import com.dangdang.ddframe.job.context.TaskContext;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * 运行中任务节点路径.
  *
  * @author zhangliang
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class RunningNode {
-    
+
+    private RunningNode() {
+    }
+
     static final String ROOT = StateNode.ROOT + "/running";
     
     private static final String RUNNING_JOB = ROOT + "/%s";

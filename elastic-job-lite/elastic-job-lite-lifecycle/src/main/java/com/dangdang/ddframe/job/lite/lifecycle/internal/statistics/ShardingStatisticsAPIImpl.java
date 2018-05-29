@@ -22,7 +22,6 @@ import com.dangdang.ddframe.job.lite.lifecycle.api.ShardingStatisticsAPI;
 import com.dangdang.ddframe.job.lite.lifecycle.domain.ShardingInfo;
 import com.dangdang.ddframe.job.lite.lifecycle.domain.ShardingInfo.ShardingStatus;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,11 +33,14 @@ import java.util.List;
  *
  * @author caohao
  */
-@RequiredArgsConstructor
 public final class ShardingStatisticsAPIImpl implements ShardingStatisticsAPI {
     
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    public ShardingStatisticsAPIImpl(CoordinatorRegistryCenter regCenter) {
+        this.regCenter = regCenter;
+    }
+
     @Override
     public Collection<ShardingInfo> getShardingInfo(final String jobName) {
         String shardingRootPath = new JobNodePath(jobName).getShardingNodePath();

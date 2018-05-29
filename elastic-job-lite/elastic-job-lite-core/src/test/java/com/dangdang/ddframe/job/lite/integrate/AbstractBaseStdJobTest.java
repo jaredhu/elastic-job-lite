@@ -41,8 +41,6 @@ import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import com.dangdang.ddframe.job.util.concurrent.BlockUtils;
 import com.dangdang.ddframe.job.util.env.IpUtils;
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -57,10 +55,8 @@ public abstract class AbstractBaseStdJobTest {
     
     private static ZookeeperConfiguration zkConfig = new ZookeeperConfiguration(EmbedTestingServer.getConnectionString(), "zkRegTestCenter");
     
-    @Getter(value = AccessLevel.PROTECTED)
     private static CoordinatorRegistryCenter regCenter = new ZookeeperRegistryCenter(zkConfig);
     
-    @Getter(AccessLevel.PROTECTED)
     private final LiteJobConfiguration liteJobConfig;
     
     private final JobScheduler jobScheduler;
@@ -71,9 +67,20 @@ public abstract class AbstractBaseStdJobTest {
     
     private final LeaderService leaderService;
     
-    @Getter(AccessLevel.PROTECTED)
     private final String jobName = System.nanoTime() + "_test_job";
-    
+
+    protected static CoordinatorRegistryCenter getRegCenter() {
+        return regCenter;
+    }
+
+    protected LiteJobConfiguration getLiteJobConfig() {
+        return liteJobConfig;
+    }
+
+    protected String getJobName() {
+        return jobName;
+    }
+
     protected AbstractBaseStdJobTest(final Class<? extends ElasticJob> elasticJobClass, final boolean disabled) {
         this.disabled = disabled;
         liteJobConfig = initJobConfig(elasticJobClass);

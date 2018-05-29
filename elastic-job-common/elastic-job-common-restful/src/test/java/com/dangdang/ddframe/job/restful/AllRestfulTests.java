@@ -17,8 +17,6 @@
 
 package com.dangdang.ddframe.job.restful;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -28,6 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
         RestfulServerTest.class, 
         RestfulExceptionTest.class 
     })
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AllRestfulTests {
+
+    private AllRestfulTests() {
+    }
 }

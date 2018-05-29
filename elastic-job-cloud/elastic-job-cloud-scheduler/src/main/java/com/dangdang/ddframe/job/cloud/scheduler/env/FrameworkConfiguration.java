@@ -17,22 +17,30 @@
 
 package com.dangdang.ddframe.job.cloud.scheduler.env;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Mesos框架配置项.
  *
  * @author zhangliang
  */
-@RequiredArgsConstructor
-@Getter
 public final class FrameworkConfiguration {
     
     private final int jobStateQueueSize;
     
     private final int reconcileIntervalMinutes;
-    
+
+    public FrameworkConfiguration(int jobStateQueueSize, int reconcileIntervalMinutes) {
+        this.jobStateQueueSize = jobStateQueueSize;
+        this.reconcileIntervalMinutes = reconcileIntervalMinutes;
+    }
+
+    public int getJobStateQueueSize() {
+        return jobStateQueueSize;
+    }
+
+    public int getReconcileIntervalMinutes() {
+        return reconcileIntervalMinutes;
+    }
+
     /**
      * 是否启用协调服务.
      * 
